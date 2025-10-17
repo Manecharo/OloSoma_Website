@@ -1,0 +1,16 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Temporary placeholder - Replace with actual logo -->
+  <text x="0" y="28" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#62bfa4">
+    OloSoma
+  </text>
+  <circle cx="150" cy="20" r="8" stroke="#62bfa4" stroke-width="2" fill="none">
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 150 20"
+      to="360 150 20"
+      dur="4s"
+      repeatCount="indefinite"
+    />
+  </circle>
+</svg>

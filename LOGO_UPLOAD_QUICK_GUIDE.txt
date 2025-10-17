@@ -1,0 +1,57 @@
+🎨 OLOSOMA LOGO - QUICK UPLOAD GUIDE
+=====================================
+
+WHERE TO UPLOAD YOUR LOGO FILES:
+C:\Users\manue\Desktop\Olosoma\web\OloSoma_Website\public\
+
+MINIMUM REQUIRED FILES:
+=======================
+
+1. logo.svg (or logo.png)
+   - Your main logo with "OloSoma" text
+   - Size: ~400x120px (or your logo proportions)
+   - WITHOUT bounding circle
+   - Transparent background
+
+2. favicon.ico
+   - Small icon for browser tab
+   - Size: 32x32px
+   - Simplified version of logo
+
+3. og-image.jpg (recommended)
+   - Social media preview image
+   - Size: 1200x630px
+   - Logo + tagline on background
+
+LOGO REQUIREMENTS:
+==================
+✓ Include "OloSoma" text in the logo image
+✓ Remove any bounding circle
+✓ Transparent background
+✓ Works on dark background (#0a0a0a)
+✓ Teal accent (#62bfa4)
+
+FILE NAMES MUST BE EXACT:
+==========================
+/public/logo.svg          (or logo.png)
+/public/favicon.ico
+/public/og-image.jpg
+
+OPTIONAL BUT RECOMMENDED:
+=========================
+/public/favicon.svg       (180x180px - iOS)
+/public/apple-touch-icon.png
+
+AFTER UPLOADING:
+================
+1. Files go in: C:\Users\manue\Desktop\Olosoma\web\OloSoma_Website\public\
+2. Restart dev server: npm run dev
+3. Visit: http://localhost:3000
+4. Your logo will appear automatically!
+
+NEED HELP?
+==========
+See LOGO_ASSETS_GUIDE.md for detailed specifications
+See UPDATES_SUMMARY.md for complete change log
+
+Ready for your logo! 🚀

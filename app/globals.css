@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Color variables */
+    --color-teal-accent: #62bfa4;
+    --color-dark-base: #0a0a0a;
+    --color-dark-elevated: #1a1a1a;
+    --color-dark-surface: #252525;
+
+    /* Shadow variables */
+    --shadow-dark: rgba(0, 0, 0, 0.6);
+    --shadow-light: rgba(98, 191, 164, 0.08);
+  }
+
+  * {
+    @apply border-gray-800;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-dark-base text-white antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    font-optical-sizing: auto;
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ================================
+     NEOMORPHIC BUTTON STYLES
+     ================================ */
+  .neu-button {
+    @apply relative px-8 py-4 rounded-xl font-semibold text-lg;
+    @apply transition-all duration-300 ease-out;
+    @apply focus:outline-none focus:ring-2 focus:ring-teal-accent focus:ring-offset-2 focus:ring-offset-dark-base;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .neu-button-primary {
+    @apply bg-dark-elevated text-white;
+    box-shadow:
+      8px 8px 16px var(--shadow-dark),
+      -8px -8px 16px var(--shadow-light);
+  }
+
+  .neu-button-primary:hover:not(:disabled) {
+    @apply text-dark-base;
+    background: linear-gradient(145deg, #62bfa4, #4fa089);
+    box-shadow:
+      8px 8px 20px rgba(0, 0, 0, 0.7),
+      -8px -8px 20px rgba(98, 191, 164, 0.15),
+      0 0 30px rgba(98, 191, 164, 0.3);
+  }
+
+  .neu-button-primary:active:not(:disabled) {
+    box-shadow:
+      inset 5px 5px 10px rgba(0, 0, 0, 0.7),
+      inset -5px -5px 10px rgba(98, 191, 164, 0.1);
+  }
+
+  .neu-button-secondary {
+    @apply bg-dark-elevated text-teal-accent border border-teal-accent/30;
+    box-shadow:
+      6px 6px 12px rgba(0, 0, 0, 0.5),
+      -6px -6px 12px rgba(98, 191, 164, 0.05);
+  }
+
+  .neu-button-secondary:hover:not(:disabled) {
+    @apply border-teal-accent/60;
+    box-shadow:
+      8px 8px 16px rgba(0, 0, 0, 0.6),
+      -8px -8px 16px rgba(98, 191, 164, 0.12),
+      0 0 20px rgba(98, 191, 164, 0.2);
+  }
+
+  /* ================================
+     NEOMORPHIC CARD STYLES
+     ================================ */
+  .neu-card {
+    @apply relative p-8 rounded-2xl bg-dark-elevated transition-all duration-300;
+    box-shadow:
+      10px 10px 20px var(--shadow-dark),
+      -10px -10px 20px var(--shadow-light);
+  }
+
+  .neu-card:hover {
+    box-shadow:
+      12px 12px 24px rgba(0, 0, 0, 0.7),
+      -12px -12px 24px rgba(98, 191, 164, 0.1),
+      0 0 40px rgba(98, 191, 164, 0.15);
+  }
+
+  .neu-card-header {
+    @apply -m-8 mb-6 p-6 rounded-t-2xl;
+    @apply bg-gradient-to-br from-teal-accent/10 to-transparent;
+    @apply border-b border-teal-accent/20;
+  }
+
+  .neu-card-accent {
+    @apply border border-teal-accent/20;
+  }
+
+  .neu-card-accent:hover {
+    @apply border-teal-accent/40;
+  }
+
+  /* ================================
+     NEOMORPHIC INPUT STYLES
+     ================================ */
+  .neu-input-group {
+    @apply space-y-2;
+  }
+
+  .neu-input-label {
+    @apply block text-sm font-medium text-gray-300;
+  }
+
+  .neu-input {
+    @apply w-full px-4 py-3 rounded-lg bg-dark-base text-white;
+    @apply transition-all duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-teal-accent;
+    box-shadow:
+      inset 6px 6px 12px rgba(0, 0, 0, 0.7),
+      inset -6px -6px 12px rgba(98, 191, 164, 0.05);
+  }
+
+  .neu-input:focus {
+    box-shadow:
+      inset 6px 6px 12px rgba(0, 0, 0, 0.7),
+      inset -6px -6px 12px rgba(98, 191, 164, 0.1),
+      0 0 0 1px rgba(98, 191, 164, 0.3);
+  }
+
+  .neu-input::placeholder {
+    @apply text-gray-500;
+  }
+
+  .neu-input-error {
+    @apply ring-2 ring-red-500;
+    box-shadow:
+      inset 6px 6px 12px rgba(0, 0, 0, 0.7),
+      inset -6px -6px 12px rgba(255, 0, 0, 0.05);
+  }
+
+  .neu-input-error-text {
+    @apply text-sm text-red-400 mt-1;
+  }
+
+  .neu-textarea {
+    @apply neu-input resize-none min-h-[120px];
+  }
+
+  .neu-select {
+    @apply neu-input appearance-none cursor-pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2362bfa4' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    padding-right: 2.5rem;
+  }
+
+  /* ================================
+     CHECKBOX STYLES
+     ================================ */
+  .neu-checkbox-wrapper {
+    @apply flex items-center gap-3 cursor-pointer;
+  }
+
+  .neu-checkbox-input {
+    @apply sr-only;
+  }
+
+  .neu-checkbox-box {
+    @apply relative w-6 h-6 rounded-md bg-dark-elevated transition-all duration-200;
+    box-shadow:
+      inset 4px 4px 8px rgba(0, 0, 0, 0.6),
+      inset -4px -4px 8px rgba(98, 191, 164, 0.05);
+  }
+
+  .neu-checkbox-input:checked + .neu-checkbox-box {
+    @apply bg-teal-accent;
+    box-shadow:
+      4px 4px 8px rgba(0, 0, 0, 0.5),
+      -4px -4px 8px rgba(98, 191, 164, 0.1),
+      0 0 20px rgba(98, 191, 164, 0.3);
+  }
+
+  .neu-checkbox-input:checked + .neu-checkbox-box::after {
+    content: '';
+    @apply absolute inset-0 flex items-center justify-center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230a0a0a' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m4.5 12.75 6 6 9-13.5'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+  }
+
+  .neu-checkbox-input:focus + .neu-checkbox-box {
+    @apply ring-2 ring-teal-accent ring-offset-2 ring-offset-dark-base;
+  }
+
+  .neu-checkbox-label {
+    @apply text-gray-300 select-none;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .text-shadow-neu {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .transform-gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Container with max width */
+  .container-custom {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1280px;
+  }
+
+  /* Gradient text */
+  .text-gradient-teal {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(145deg, #62bfa4, #4fa089);
+  }
+
+  /* Breathing animation for CTAs */
+  .breathing-glow {
+    animation: breathing 3s ease-in-out infinite;
+  }
+
+  @keyframes breathing {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(98, 191, 164, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(98, 191, 164, 0.5);
+    }
+  }
+}
