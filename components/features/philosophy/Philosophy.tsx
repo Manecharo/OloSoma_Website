@@ -30,11 +30,11 @@ export function Philosophy() {
                 olo
               </MotionH2>
               <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
-                The unseen—pure thought,
+                A pulse of strategy,
                 <br />
-                strategy, and possibility
+                culture, and research.
                 <br />
-                waiting to be realized.
+                The invisible potential.
               </p>
             </div>
           </MotionDiv>
@@ -57,11 +57,11 @@ export function Philosophy() {
               soma
             </MotionH2>
             <p className="text-gray-300 text-lg md:text-xl leading-relaxed">
-              The tangible—experience,
+              A physical or digital experience
               <br />
-              interface, and space made
+              that can be touched,
               <br />
-              real through design.
+              lived, and felt.
             </p>
           </MotionDiv>
         </div>
@@ -75,20 +75,28 @@ export function Philosophy() {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <MotionH3 className="text-3xl md:text-4xl font-bold mb-6">
-            This is transformation by design.
+            Where Soft Logic Meets Real Form.
           </MotionH3>
 
           <div className="space-y-6 text-gray-300 text-base md:text-lg leading-relaxed">
             <p>
-              Where European luxury hospitality meets Latin American product innovation.
-              <br className="hidden sm:block" />
-              Where the Middle East's grand vision meets Asia's rapid prototyping.
+              Olosoma merges strategy with craft, analysis with intuition, logic with emotion.
+            </p>
+            <p>
+              We think like consultants and create like designers.
+            </p>
+            <p>
+              Our work bridges foresight and execution — transforming invisible potential into integrated, living realities.
             </p>
 
-            <p className="text-xl md:text-2xl font-light">
-              We operate at the intersection of spatial design,
+            <p className="text-xl md:text-2xl font-light pt-4">
+              Each idea begins as OLO — a pulse of strategy, culture, and research.
               <br className="hidden sm:block" />
-              digital product strategy, and cultural intelligence.
+              It becomes SOMA — a physical or digital experience that can be touched, lived, and felt.
+            </p>
+
+            <p className="text-xl md:text-2xl font-semibold text-teal-accent pt-4">
+              We don't just design spaces or brands — we design systems of meaning.
             </p>
           </div>
         </MotionDiv>

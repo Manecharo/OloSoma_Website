@@ -5,7 +5,7 @@ import { NeuCard } from '@/components/ui/NeuCard'
 
 const founders = [
   {
-    name: 'Diogo Rodrigues',
+    name: 'Diogo Leitão',
     role: 'Spatial & Service Design',
     bio: 'Strategic experience architect with roots in European luxury hospitality. Specializes in translating vision into seamless physical environments and operational flows.',
     focus: [
@@ -17,7 +17,7 @@ const founders = [
     delay: 0,
   },
   {
-    name: 'Manuel [Last Name]',
+    name: 'Manu Echavarría',
     role: 'Industrial & Digital Design',
     bio: 'Product strategist and rapid prototyper with expertise across Latin America and Asia. Bridges cultural innovation with technology to create tangible, user-centered solutions.',
     focus: [
@@ -36,23 +36,37 @@ export function DualVision() {
     <section className="py-24 md:py-32 relative">
       <div className="container-custom">
         <MotionH2
-          className="text-4xl md:text-5xl font-bold text-center mb-4"
+          className="text-4xl md:text-5xl font-bold text-center mb-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
-          Dual Vision
+          About
         </MotionH2>
 
         <MotionDiv
-          className="text-center text-gray-400 mb-16 max-w-2xl mx-auto"
+          className="text-center text-gray-300 mb-16 max-w-3xl mx-auto space-y-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <p>Two perspectives, one integrated approach</p>
+          <p className="text-lg leading-relaxed">
+            Olosoma was founded by Diogo Leitão and Manu Echavarría Romero, two designers who believe that the future of design lies in strategic synthesis.
+          </p>
+          <p className="text-lg leading-relaxed">
+            We are architects, product designers, and brand thinkers — working as one body of intelligence.
+          </p>
+          <p className="text-lg leading-relaxed">
+            Our culture is defined by curiosity, precision, and empathy.
+          </p>
+          <p className="text-lg leading-relaxed">
+            We collaborate globally, remotely, and seamlessly, assembling multidisciplinary teams that think deeply and act decisively.
+          </p>
+          <p className="text-lg leading-relaxed font-semibold text-teal-accent">
+            We design for the spaces people inhabit, the objects they use, the brands they trust, and the futures they imagine.
+          </p>
         </MotionDiv>
 
         {/* Founders grid */}

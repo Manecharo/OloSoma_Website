@@ -23,13 +23,20 @@ export default function ConnectPage() {
             className="max-w-4xl mx-auto text-center"
           >
             <MotionH1 className="text-4xl md:text-6xl font-bold mb-8">
-              Let's create something inevitable.
+              LET'S TALK
             </MotionH1>
 
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-              We work with organizations that see design as strategy—whether you're building
-              a luxury hotel in Dubai, launching a product in São Paulo, or reimagining retail in Singapore.
-            </p>
+            <div className="space-y-4 text-lg md:text-xl text-gray-300 leading-relaxed">
+              <p>
+                We work with visionary clients who see design not as decoration, but as strategy.
+              </p>
+              <p>
+                If you have an idea, a challenge, or a question, let's talk.
+              </p>
+              <p>
+                Whether you need a one-month sprint or a long-term design partnership, Olosoma adapts to your rhythm.
+              </p>
+            </div>
           </MotionDiv>
         </div>
       </section>

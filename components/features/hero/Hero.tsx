@@ -1,6 +1,6 @@
 'use client'
 
-import { MotionDiv, MotionH1, fadeInUp } from '@/components/animations/MotionWrapper'
+import { MotionDiv, MotionH1 } from '@/components/animations/MotionWrapper'
 import { NeuButton } from '@/components/ui/NeuButton'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -49,7 +49,7 @@ export function Hero() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          We give form to potential.
+          The journey of a thought becoming a thing.
         </MotionH1>
 
         <MotionDiv
@@ -59,10 +59,13 @@ export function Hero() {
           transition={{ delay: 0.4, duration: 0.6 }}
         >
           <p>
-            A global design consultancy where soft logic meets real form—
+            We are a Strategic Design Studio operating in the spectrum between the visible and the invisible — where ideas acquire form and strategy becomes tangible.
           </p>
           <p>
-            transforming the invisible into integrated experiences.
+            From architecture to brand systems, from digital experiences to sensorial worlds, we turn foresight into form and imagination into structure.
+          </p>
+          <p>
+            Every project we create begins with one simple act: making the invisible visible.
           </p>
         </MotionDiv>
 
@@ -74,7 +77,7 @@ export function Hero() {
         >
           <Link href="#services">
             <NeuButton variant="primary" className="breathing-glow">
-              → Discover how
+              Start the journey →
             </NeuButton>
           </Link>
         </MotionDiv>

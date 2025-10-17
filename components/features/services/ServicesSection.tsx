@@ -43,17 +43,25 @@ export function ServicesSection() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
-          Our Services
+          WORK
         </MotionH2>
 
         <MotionDiv
-          className="text-center text-gray-400 mb-16 max-w-2xl mx-auto"
+          className="text-center text-gray-300 mb-16 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <p>Three integrated offerings that transform vision into reality</p>
+          <p className="text-lg leading-relaxed">
+            We operate across architecture, product, brand, and digital — translating strategic insight into coherent experiences.
+          </p>
+          <p className="text-lg leading-relaxed mt-4">
+            Each project begins with a vision sprint, unfolds through design systems, and materializes as tangible reality.
+          </p>
+          <p className="text-lg leading-relaxed mt-4">
+            We work globally and fluidly — from Lisbon to Bogotá, Warsaw to Kuala Lumpur — collaborating with clients who see design as a tool for transformation.
+          </p>
         </MotionDiv>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
