@@ -1,6 +1,6 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
+import { useActionState, useFormStatus } from 'react-dom'
 import { NeuInput, NeuTextarea } from '@/components/ui/NeuInput'
 import { NeuButton } from '@/components/ui/NeuButton'
 import { submitContactForm, type ContactFormState } from '@/app/actions/contact'
@@ -23,7 +23,7 @@ function SubmitButton() {
 }
 
 export function ContactForm() {
-  const [state, formAction] = useFormState<ContactFormState | null, FormData>(
+  const [state, formAction] = useActionState<ContactFormState | null, FormData>(
     submitContactForm,
     null
   )
