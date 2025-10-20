@@ -12,10 +12,7 @@ interface IntroWrapperProps {
 export function IntroWrapper({ children }: IntroWrapperProps) {
   const { shouldShowIntro, isLoading, markIntroAsSeen } = useIntroSession()
 
-  console.log('[IntroWrapper] shouldShowIntro:', shouldShowIntro, 'isLoading:', isLoading)
-
   const handleIntroComplete = () => {
-    console.log('[IntroWrapper] Intro completed, marking as seen')
     markIntroAsSeen()
   }
 

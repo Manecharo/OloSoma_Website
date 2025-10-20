@@ -9,11 +9,18 @@ interface MouseBeamProps {
 }
 
 export function MouseBeam({ isActive }: MouseBeamProps) {
-  const [mousePosition, setMousePosition] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
   const gyroscope = useGyroscope()
+
+  // Initialize mouse position after mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setMousePosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+    }
+  }, [])
 
   useEffect(() => {
     // Detect if mobile/tablet

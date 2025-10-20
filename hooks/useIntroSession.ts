@@ -11,14 +11,9 @@ export function useIntroSession() {
     // Check if intro has been seen this session
     const introSeen = sessionStorage.getItem('olosoma-intro-seen')
 
-    console.log('[IntroSession] Checking session storage:', introSeen ? 'SEEN' : 'NOT SEEN')
-
     if (introSeen) {
       // Intro was already seen, hide it
-      console.log('[IntroSession] Intro already seen, hiding')
       setShouldShowIntro(false)
-    } else {
-      console.log('[IntroSession] Intro NOT seen, will show')
     }
 
     setIsLoading(false)
