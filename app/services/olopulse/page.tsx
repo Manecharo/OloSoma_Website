@@ -60,18 +60,17 @@ export default function OloPulsePage() {
             </MotionH2>
 
             <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
-              <p>
+              <p className="text-xl md:text-2xl">
                 The ignition moment—where ambition meets strategic clarity.
               </p>
 
               <p>
                 We take the <span className="text-teal-accent font-semibold">invisible</span> (your vision, market
-                opportunity, unmet need) and define its scope, direction, and roadmap. This is where possibility becomes plan.
+                opportunity, unmet need) and define its scope, direction, and roadmap.
               </p>
 
-              <p>
-                oloPulse fuses our original strategic vision service with somaPath's journey mapping expertise,
-                creating a comprehensive approach that bridges thought and action.
+              <p className="text-teal-accent font-semibold">
+                This is where possibility becomes plan.
               </p>
             </div>
           </MotionDiv>

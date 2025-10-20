@@ -60,18 +60,17 @@ export default function SomaForgePage() {
             </MotionH2>
 
             <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
-              <p>
+              <p className="text-xl md:text-2xl">
                 The materialization—where concepts become prototypes, and prototypes become presence.
               </p>
 
               <p>
                 We give your vision <span className="text-teal-accent font-semibold">tangible form</span> through
-                rapid iteration, sensorial branding, and industrial-grade execution. This is where design gets real.
+                rapid iteration, sensorial branding, and industrial-grade execution.
               </p>
 
-              <p>
-                somaForge fuses oloForge's product development with somaAura's sensorial branding,
-                creating a comprehensive approach from sketch to shelf-ready.
+              <p className="text-teal-accent font-semibold">
+                From sketch to shelf-ready—we refine until it feels inevitable.
               </p>
             </div>
           </MotionDiv>

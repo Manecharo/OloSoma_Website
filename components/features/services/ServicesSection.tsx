@@ -53,14 +53,11 @@ export function ServicesSection() {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <p className="text-lg leading-relaxed">
+          <p className="text-xl md:text-2xl leading-relaxed">
             We operate across architecture, product, brand, and digital — translating strategic insight into coherent experiences.
           </p>
-          <p className="text-lg leading-relaxed mt-4">
-            Each project begins with a vision sprint, unfolds through design systems, and materializes as tangible reality.
-          </p>
-          <p className="text-lg leading-relaxed mt-4">
-            We work globally and fluidly — from Lisbon to Bogotá, Warsaw to Kuala Lumpur — collaborating with clients who see design as a tool for transformation.
+          <p className="text-lg leading-relaxed mt-6 text-gray-400">
+            Each project begins with vision, unfolds through design systems, and materializes as tangible reality.
           </p>
         </MotionDiv>
 

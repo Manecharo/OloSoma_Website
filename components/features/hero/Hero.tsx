@@ -53,19 +53,16 @@ export function Hero() {
         </MotionH1>
 
         <MotionDiv
-          className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto space-y-4"
+          className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <p>
-            We are a Strategic Design Studio operating in the spectrum between the visible and the invisible — where ideas acquire form and strategy becomes tangible.
+          <p className="mb-6">
+            We design integrated experiences — turning strategy into physical spaces, digital products, and branded worlds.
           </p>
-          <p>
-            From architecture to brand systems, from digital experiences to sensorial worlds, we turn foresight into form and imagination into structure.
-          </p>
-          <p>
-            Every project we create begins with one simple act: making the invisible visible.
+          <p className="text-teal-accent font-light">
+            Making the invisible visible.
           </p>
         </MotionDiv>
 

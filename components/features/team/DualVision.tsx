@@ -46,25 +46,16 @@ export function DualVision() {
         </MotionH2>
 
         <MotionDiv
-          className="text-center text-gray-300 mb-16 max-w-3xl mx-auto space-y-4"
+          className="text-center text-gray-300 mb-16 max-w-3xl mx-auto space-y-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
-          <p className="text-lg leading-relaxed">
-            Olosoma was founded by Diogo Leitão and Manu Echavarría Romero, two designers who believe that the future of design lies in strategic synthesis.
+          <p className="text-xl md:text-2xl leading-relaxed">
+            Founded by Diogo Leitão and Manu Echavarría Romero — architects, product designers, and brand thinkers working as one body of intelligence.
           </p>
-          <p className="text-lg leading-relaxed">
-            We are architects, product designers, and brand thinkers — working as one body of intelligence.
-          </p>
-          <p className="text-lg leading-relaxed">
-            Our culture is defined by curiosity, precision, and empathy.
-          </p>
-          <p className="text-lg leading-relaxed">
-            We collaborate globally, remotely, and seamlessly, assembling multidisciplinary teams that think deeply and act decisively.
-          </p>
-          <p className="text-lg leading-relaxed font-semibold text-teal-accent">
+          <p className="text-xl md:text-2xl font-semibold text-teal-accent">
             We design for the spaces people inhabit, the objects they use, the brands they trust, and the futures they imagine.
           </p>
         </MotionDiv>

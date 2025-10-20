@@ -26,15 +26,12 @@ export default function ConnectPage() {
               LET'S TALK
             </MotionH1>
 
-            <div className="space-y-4 text-lg md:text-xl text-gray-300 leading-relaxed">
-              <p>
+            <div className="space-y-6 text-lg md:text-xl text-gray-300 leading-relaxed">
+              <p className="text-2xl">
                 We work with visionary clients who see design not as decoration, but as strategy.
               </p>
-              <p>
-                If you have an idea, a challenge, or a question, let's talk.
-              </p>
-              <p>
-                Whether you need a one-month sprint or a long-term design partnership, Olosoma adapts to your rhythm.
+              <p className="text-teal-accent font-semibold">
+                If you have an idea, a challenge, or a question — let's talk.
               </p>
             </div>
           </MotionDiv>

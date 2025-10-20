@@ -79,24 +79,16 @@ export function Philosophy() {
           </MotionH3>
 
           <div className="space-y-6 text-gray-300 text-base md:text-lg leading-relaxed">
-            <p>
-              Olosoma merges strategy with craft, analysis with intuition, logic with emotion.
-            </p>
-            <p>
-              We think like consultants and create like designers.
-            </p>
-            <p>
-              Our work bridges foresight and execution — transforming invisible potential into integrated, living realities.
-            </p>
-
-            <p className="text-xl md:text-2xl font-light pt-4">
-              Each idea begins as OLO — a pulse of strategy, culture, and research.
-              <br className="hidden sm:block" />
-              It becomes SOMA — a physical or digital experience that can be touched, lived, and felt.
-            </p>
-
-            <p className="text-xl md:text-2xl font-semibold text-teal-accent pt-4">
+            <p className="text-2xl md:text-3xl font-semibold text-teal-accent">
               We don't just design spaces or brands — we design systems of meaning.
+            </p>
+
+            <p className="text-xl md:text-2xl pt-4">
+              Strategy meets craft. Analysis meets intuition. Foresight meets execution.
+            </p>
+
+            <p className="text-lg">
+              We think like consultants and create like designers — transforming invisible potential into integrated, living realities.
             </p>
           </div>
         </MotionDiv>
