@@ -32,7 +32,7 @@ export function useCursorTrail(options: UseCursorTrailOptions = {}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
   const lastSpawnRef = useRef<number>(0)
 
   useEffect(() => {

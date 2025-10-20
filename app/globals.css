@@ -256,4 +256,29 @@
       box-shadow: 0 0 30px rgba(98, 191, 164, 0.5);
     }
   }
+
+  /* ================================
+     INTRO EXPERIENCE OPTIMIZATIONS
+     ================================ */
+
+  /* GPU acceleration for intro animations */
+  .intro-gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform, opacity;
+  }
+
+  /* Smooth rendering for canvas elements */
+  canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Hide scrollbars during intro */
+  body.intro-active {
+    overflow: hidden;
+    height: 100vh;
+    touch-action: none;
+  }
 }

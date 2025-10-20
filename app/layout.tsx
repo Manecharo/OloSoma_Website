@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CursorTrail, BreathingNoise } from "@/components/effects";
+import { IntroWrapper } from "@/components/intro/IntroWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -93,9 +94,11 @@ export default function RootLayout({
           scale={1.5}
         />
 
-        <Header />
-        {children}
-        <Footer />
+        <IntroWrapper>
+          <Header />
+          {children}
+          <Footer />
+        </IntroWrapper>
       </body>
     </html>
   );

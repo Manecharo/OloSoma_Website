@@ -13,7 +13,7 @@ interface UseMagneticEffectOptions {
 
 export function useMagneticEffect<T extends HTMLElement>(
   options: UseMagneticEffectOptions = {}
-): RefObject<T> {
+): RefObject<T | null> {
   const {
     strength = 0.3,
     radius = 100,
@@ -23,7 +23,7 @@ export function useMagneticEffect<T extends HTMLElement>(
   } = options
 
   const elementRef = useRef<T>(null)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | undefined>(undefined)
   const mouseRef = useRef({ x: 0, y: 0 })
   const glowRef = useRef(0)
 

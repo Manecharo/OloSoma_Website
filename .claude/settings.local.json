@@ -7,7 +7,11 @@
       "Bash(npm cache clean:*)",
       "Bash(npm:*)",
       "Bash(timeout 10 bash:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nStreamline website copy for video backgrounds and immediate impact\n\nReduced verbose text across all sections to create punchy, scannable content optimized for mesmerizing background videos. Removed repetition and emphasized core value propositions.\n\nChanges:\n- Hero: Condensed 3 paragraphs to 2 impactful statements\n- Philosophy: Elevated \"systems of meaning\" message, removed repetition\n- Services: Removed geographic name-dropping, strengthened value prop\n- About: Consolidated 5 paragraphs to 2 focused statements\n- Service pages: Removed undefined references (somaPath, oloForge, somaAura)\n- Connect: Simplified from 3 paragraphs to 2 powerful statements\n\nResult: 58 fewer lines, stronger hierarchy, better for video backgrounds.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

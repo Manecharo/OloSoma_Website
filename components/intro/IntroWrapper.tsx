@@ -1,0 +1,45 @@
+'use client'
+
+import { ReactNode } from 'react'
+import { IntroExperience } from './IntroExperience'
+import { useIntroSession } from '@/hooks/useIntroSession'
+import { AnimatePresence, motion } from 'framer-motion'
+
+interface IntroWrapperProps {
+  children: ReactNode
+}
+
+export function IntroWrapper({ children }: IntroWrapperProps) {
+  const { shouldShowIntro, isLoading, markIntroAsSeen } = useIntroSession()
+
+  const handleIntroComplete = () => {
+    markIntroAsSeen()
+  }
+
+  // Show nothing while checking session
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-black z-[9999]" />
+    )
+  }
+
+  return (
+    <>
+      {/* Intro Experience */}
+      {shouldShowIntro && <IntroExperience onComplete={handleIntroComplete} />}
+
+      {/* Main Content - Fades in after intro */}
+      <AnimatePresence mode="wait">
+        {!shouldShowIntro && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  )
+}

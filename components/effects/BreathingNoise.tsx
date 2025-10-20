@@ -14,7 +14,7 @@ export function BreathingNoise({
   scale = 1.5,
 }: BreathingNoiseProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     const canvas = canvasRef.current
