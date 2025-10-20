@@ -1,6 +1,7 @@
 'use client'
 
-import { useActionState, useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { NeuInput, NeuTextarea } from '@/components/ui/NeuInput'
 import { NeuButton } from '@/components/ui/NeuButton'
 import { submitContactForm, type ContactFormState } from '@/app/actions/contact'
