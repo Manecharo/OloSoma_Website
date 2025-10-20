@@ -50,9 +50,8 @@ export function ScrollReveal({ scrollProgress }: ScrollRevealProps) {
       {scrollProgress < 0.3 && (
         <motion.div
           className="absolute"
-          style={{ opacity: logoOpacity }}
           animate={{
-            opacity: [logoOpacity * 0.4, logoOpacity * 1, logoOpacity * 0.4],
+            opacity: [logoOpacity * 0.1, logoOpacity * 1, logoOpacity * 0.1],
           }}
           transition={{
             duration: 2,

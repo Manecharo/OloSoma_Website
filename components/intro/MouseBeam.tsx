@@ -9,7 +9,7 @@ interface MouseBeamProps {
 }
 
 export function MouseBeam({ isActive }: MouseBeamProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 })
+  const [mousePosition, setMousePosition] = useState({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
   const [isMoving, setIsMoving] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
@@ -32,10 +32,8 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
     // Desktop: Mouse movement
     if (!isMobile) {
       const handleMouseMove = (e: MouseEvent) => {
-        const x = (e.clientX / window.innerWidth) * 100
-        const y = (e.clientY / window.innerHeight) * 100
-
-        setMousePosition({ x, y })
+        // Use exact pixel coordinates for precise centering
+        setMousePosition({ x: e.clientX, y: e.clientY })
         setIsMoving(true)
 
         // Clear existing timeout
@@ -60,10 +58,12 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
     }
   }, [isActive, isMobile])
 
-  // Mobile: Use gyroscope
+  // Mobile: Use gyroscope (convert percentage to pixels)
   useEffect(() => {
     if (isMobile && gyroscope.isSupported && isActive) {
-      setMousePosition({ x: gyroscope.x, y: gyroscope.y })
+      const x = (gyroscope.x / 100) * window.innerWidth
+      const y = (gyroscope.y / 100) * window.innerHeight
+      setMousePosition({ x, y })
       setIsMoving(true)
     }
   }, [gyroscope, isMobile, isActive])
@@ -81,23 +81,23 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
       <motion.div
         className="absolute"
         style={{
-          left: `${mousePosition.x}%`,
-          top: `${mousePosition.y}%`,
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
           width: '60vw',
           height: '60vw',
           transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.85) 0%, rgba(98, 191, 164, 0.4) 30%, transparent 70%)',
-          filter: 'blur(80px)',
+          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.9) 0%, rgba(98, 191, 164, 0.5) 25%, rgba(98, 191, 164, 0.2) 50%, transparent 75%)',
+          filter: 'blur(100px)',
         }}
         animate={{
-          opacity: isMoving ? 0.85 : 0,
+          opacity: isMoving ? 0.9 : 0,
           scale: isMoving ? 1 : 0.8,
         }}
         transition={{
-          opacity: { duration: isMoving ? 0.2 : 1, ease: 'easeOut' },
+          opacity: { duration: isMoving ? 0.15 : 1, ease: 'easeOut' },
           scale: { duration: 0.6, ease: 'easeOut' },
-          left: { type: 'spring', damping: 30, stiffness: 200 },
-          top: { type: 'spring', damping: 30, stiffness: 200 },
+          left: { type: 'spring', damping: 25, stiffness: 150 },
+          top: { type: 'spring', damping: 25, stiffness: 150 },
         }}
       />
     </motion.div>

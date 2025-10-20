@@ -1,150 +1,132 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface GradientCanvasProps {
   progress: number // 0 to 1
 }
 
 export function GradientCanvas({ progress }: GradientCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [rotation, setRotation] = useState(0)
   const animationRef = useRef<number | undefined>(undefined)
-  const timeRef = useRef<number>(0)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d', { alpha: false })
-    if (!ctx) return
-
-    // Set canvas size
-    const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    // Simple Perlin-like noise function
-    const noise = (x: number, y: number, t: number) => {
-      return (
-        Math.sin(x * 0.01 + t) *
-        Math.cos(y * 0.01 + t) *
-        Math.sin((x + y) * 0.005 + t * 0.5)
-      )
-    }
-
+    // Animate rotation very slowly
     const animate = () => {
-      if (!canvas || !ctx) return
-
-      const width = canvas.width
-      const height = canvas.height
-
-      // Increment time very slowly for smooth animation
-      timeRef.current += 0.002
-
-      // Create gradient that reveals based on progress
-      const revealAmount = progress
-
-      // Fill base black
-      ctx.fillStyle = '#000000'
-      ctx.fillRect(0, 0, width, height)
-
-      if (revealAmount > 0) {
-        // Create image data for pixel manipulation
-        const imageData = ctx.getImageData(0, 0, width, height)
-        const data = imageData.data
-
-        // Sample rate for performance (check every 4th pixel)
-        const sampleRate = 4
-
-        for (let y = 0; y < height; y += sampleRate) {
-          for (let x = 0; x < width; x += sampleRate) {
-            const index = (y * width + x) * 4
-
-            // Calculate distance from corners for irregular gradient
-            const distTopLeft = Math.sqrt(x * x + y * y) / Math.sqrt(width * width + height * height)
-            const distBottomRight = Math.sqrt((width - x) ** 2 + (height - y) ** 2) / Math.sqrt(width * width + height * height)
-            const distTopRight = Math.sqrt((width - x) ** 2 + y * y) / Math.sqrt(width * width + height * height)
-
-            // Add noise for irregularity
-            const noiseValue = (noise(x, y, timeRef.current) + 1) * 0.5 // Normalize to 0-1
-
-            // Combine distances with noise for organic feel
-            const gradientValue = (
-              distTopLeft * 0.3 +
-              distBottomRight * 0.3 +
-              distTopRight * 0.2 +
-              noiseValue * 0.2
-            )
-
-            // Apply feathering and progress
-            const feathering = Math.pow(gradientValue, 2) // Exponential for smooth falloff
-            const finalValue = feathering * revealAmount
-
-            // Determine color based on position and noise
-            let r, g, b, a
-
-            if (gradientValue < 0.3) {
-              // Pure black zone
-              r = g = b = 0
-              a = 255
-            } else if (gradientValue < 0.6) {
-              // 70% black zone (#1a1a1a)
-              r = g = b = Math.floor(26 * finalValue)
-              a = 255
-            } else {
-              // Olo teal zone (#62BFA4) at 30% opacity
-              const tealStrength = Math.min(1, (gradientValue - 0.6) / 0.4) * finalValue * 0.3
-              r = Math.floor(98 * tealStrength)
-              g = Math.floor(191 * tealStrength)
-              b = Math.floor(164 * tealStrength)
-              a = Math.floor(255 * tealStrength)
-            }
-
-            // Fill the sampled area
-            for (let dy = 0; dy < sampleRate && y + dy < height; dy++) {
-              for (let dx = 0; dx < sampleRate && x + dx < width; dx++) {
-                const i = ((y + dy) * width + (x + dx)) * 4
-                // Blend with existing black
-                data[i] = Math.max(data[i], r)
-                data[i + 1] = Math.max(data[i + 1], g)
-                data[i + 2] = Math.max(data[i + 2], b)
-                data[i + 3] = 255
-              }
-            }
-          }
-        }
-
-        ctx.putImageData(imageData, 0, 0)
-
-        // Apply blur for additional feathering
-        if (revealAmount > 0.1) {
-          ctx.filter = `blur(${Math.floor(20 * revealAmount)}px)`
-          ctx.drawImage(canvas, 0, 0)
-          ctx.filter = 'none'
-        }
-      }
-
+      setRotation((prev) => (prev + 0.05) % 360)
       animationRef.current = requestAnimationFrame(animate)
     }
 
     animate()
 
     return () => {
-      window.removeEventListener('resize', resize)
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [progress])
+  }, [])
+
+  // Calculate opacity based on progress
+  const opacity = Math.min(1, progress * 1.2)
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       className="fixed inset-0 w-full h-full"
-      style={{ willChange: 'transform' }}
-    />
+      style={{
+        opacity,
+        transform: `rotate(${rotation * 0.1}deg) scale(${1 + rotation * 0.0001})`,
+        transition: 'opacity 0.5s ease-out',
+        willChange: 'transform, opacity',
+      }}
+    >
+      {/* Multiple layered gradients for depth and irregularity */}
+
+      {/* Layer 1: Top-left pure black expanding */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 120% 120% at ${20 + Math.sin(rotation * 0.01) * 5}% ${20 + Math.cos(rotation * 0.015) * 5}%,
+            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.95) 20%,
+            rgba(0, 0, 0, 0.6) 45%,
+            transparent 70%)`,
+          filter: 'blur(80px)',
+        }}
+      />
+
+      {/* Layer 2: Bottom-right 70% black with irregular shape */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 140% 100% at ${75 + Math.sin(rotation * 0.012) * 8}% ${80 + Math.cos(rotation * 0.018) * 6}%,
+            rgba(26, 26, 26, 1) 0%,
+            rgba(26, 26, 26, 0.9) 15%,
+            rgba(26, 26, 26, 0.5) 40%,
+            transparent 65%)`,
+          filter: 'blur(100px)',
+        }}
+      />
+
+      {/* Layer 3: Top-right teal accent glow */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 80% 100% at ${85 + Math.cos(rotation * 0.014) * 6}% ${15 + Math.sin(rotation * 0.016) * 7}%,
+            rgba(98, 191, 164, 0.35) 0%,
+            rgba(98, 191, 164, 0.2) 25%,
+            rgba(98, 191, 164, 0.08) 45%,
+            transparent 70%)`,
+          filter: 'blur(120px)',
+        }}
+      />
+
+      {/* Layer 4: Center-left dark gray for additional depth */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 90% 110% at ${10 + Math.sin(rotation * 0.011) * 4}% ${50 + Math.cos(rotation * 0.013) * 8}%,
+            rgba(15, 15, 15, 0.9) 0%,
+            rgba(15, 15, 15, 0.5) 30%,
+            transparent 60%)`,
+          filter: 'blur(90px)',
+        }}
+      />
+
+      {/* Layer 5: Bottom-left subtle teal undertone */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 70% 90% at ${25 + Math.cos(rotation * 0.017) * 5}% ${85 + Math.sin(rotation * 0.019) * 4}%,
+            rgba(98, 191, 164, 0.15) 0%,
+            rgba(98, 191, 164, 0.05) 35%,
+            transparent 65%)`,
+          filter: 'blur(110px)',
+        }}
+      />
+
+      {/* Layer 6: Additional organic noise layer */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(ellipse 60% 80% at ${60 + Math.sin(rotation * 0.02) * 10}% ${40 + Math.cos(rotation * 0.022) * 12}%,
+              rgba(10, 10, 10, 0.6) 0%,
+              transparent 50%),
+            radial-gradient(ellipse 70% 70% at ${40 + Math.cos(rotation * 0.016) * 8}% ${60 + Math.sin(rotation * 0.021) * 9}%,
+              rgba(20, 20, 20, 0.5) 0%,
+              transparent 55%)`,
+          filter: 'blur(130px)',
+        }}
+      />
+
+      {/* Final overlay for color blending */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 200% 200% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.3) 100%)',
+          mixBlendMode: 'multiply',
+        }}
+      />
+    </div>
   )
 }
