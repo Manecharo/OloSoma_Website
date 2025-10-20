@@ -12,7 +12,10 @@ interface IntroWrapperProps {
 export function IntroWrapper({ children }: IntroWrapperProps) {
   const { shouldShowIntro, isLoading, markIntroAsSeen } = useIntroSession()
 
+  console.log('[IntroWrapper] shouldShowIntro:', shouldShowIntro, 'isLoading:', isLoading)
+
   const handleIntroComplete = () => {
+    console.log('[IntroWrapper] Intro completed, marking as seen')
     markIntroAsSeen()
   }
 
@@ -28,18 +31,15 @@ export function IntroWrapper({ children }: IntroWrapperProps) {
       {/* Intro Experience */}
       {shouldShowIntro && <IntroExperience onComplete={handleIntroComplete} />}
 
-      {/* Main Content - Fades in after intro */}
-      <AnimatePresence mode="wait">
-        {!shouldShowIntro && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Main Content - Hidden during intro, fades in after */}
+      <motion.div
+        initial={shouldShowIntro ? { opacity: 0 } : { opacity: 1 }}
+        animate={{ opacity: shouldShowIntro ? 0 : 1 }}
+        transition={{ duration: 1.2, ease: 'easeOut' }}
+        style={{ pointerEvents: shouldShowIntro ? 'none' : 'auto' }}
+      >
+        {children}
+      </motion.div>
     </>
   )
 }
