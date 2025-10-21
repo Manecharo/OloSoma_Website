@@ -12,7 +12,9 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isMoving, setIsMoving] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [rotation, setRotation] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const animationRef = useRef<number | undefined>(undefined)
   const gyroscope = useGyroscope()
 
   // Initialize mouse position after mount
@@ -75,7 +77,106 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
     }
   }, [gyroscope, isMobile, isActive])
 
+  // Slow continuous rotation animation for directional changes
+  useEffect(() => {
+    if (!isActive) return
+
+    let startTime = Date.now()
+
+    const animate = () => {
+      const elapsed = (Date.now() - startTime) / 1000
+      // Very slow rotation: complete 360° every ~30 seconds
+      setRotation((elapsed * 12) % 360)
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    animationRef.current = requestAnimationFrame(animate)
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
+  }, [isActive])
+
   if (!isActive) return null
+
+  // Generate fewer, smaller layers with high quality blur for a refined beam
+  const layers = []
+  const totalLayers = 40
+
+  for (let i = 0; i < totalLayers; i++) {
+    const progress = i / totalLayers
+
+    // Much smaller size range: 60px to 800px max
+    const size = 60 + Math.pow(progress, 1.5) * 740
+
+    // Moderate blur for smoothness without pixelation: 20px to 150px
+    const blur = 20 + progress * 130
+
+    // Smooth opacity gradient with 5 stops
+    const opacity1 = Math.max(0, 0.9 - progress * 0.7)
+    const opacity2 = Math.max(0, 0.75 - progress * 0.75)
+    const opacity3 = Math.max(0, 0.55 - progress * 0.8)
+    const opacity4 = Math.max(0, 0.35 - progress * 0.85)
+    const opacity5 = Math.max(0, 0.18 - progress * 0.9)
+
+    // Smooth animation timing
+    const fadeInDuration = 0.1 + progress * 0.2
+    const fadeOutDuration = 0.5 + progress * 0.7
+    const scaleDuration = 0.3 + progress * 0.4
+
+    // Master opacity
+    const masterOpacity = Math.max(0.4, 0.85 - progress * 0.35)
+
+    // Subtle scale variation
+    const scaleFrom = 0.85 + progress * 0.1
+
+    // Add slow directional offset based on rotation and layer
+    const angle = (rotation + i * 9) * (Math.PI / 180)
+    const offsetDistance = progress * 15
+    const offsetX = Math.cos(angle) * offsetDistance
+    const offsetY = Math.sin(angle) * offsetDistance
+
+    layers.push(
+      <motion.div
+        key={i}
+        className="absolute"
+        style={{
+          left: mousePosition.x + offsetX,
+          top: mousePosition.y + offsetY,
+          width: `${size}px`,
+          height: `${size}px`,
+          transform: 'translate(-50%, -50%)',
+          background: `radial-gradient(circle,
+            rgba(98, 191, 164, ${opacity1}) 0%,
+            rgba(98, 191, 164, ${opacity2}) ${8 + progress * 4}%,
+            rgba(98, 191, 164, ${opacity3}) ${20 + progress * 8}%,
+            rgba(98, 191, 164, ${opacity4}) ${40 + progress * 15}%,
+            rgba(98, 191, 164, ${opacity5}) ${65 + progress * 15}%,
+            transparent 100%)`,
+          filter: `blur(${blur}px)`,
+          willChange: 'opacity, transform',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+        } as React.CSSProperties}
+        animate={{
+          opacity: isMoving ? masterOpacity : 0,
+          scale: isMoving ? 1 : scaleFrom,
+        }}
+        transition={{
+          opacity: {
+            duration: isMoving ? fadeInDuration : fadeOutDuration,
+            ease: [0.4, 0.0, 0.2, 1],
+          },
+          scale: {
+            duration: scaleDuration,
+            ease: [0.4, 0.0, 0.2, 1],
+          },
+        }}
+      />
+    )
+  }
 
   return (
     <motion.div
@@ -84,228 +185,13 @@ export function MouseBeam({ isActive }: MouseBeamProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
+      style={{
+        willChange: 'opacity',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+      }}
     >
-      {/* Multiple layered spotlight for extreme detail and depth */}
-
-      {/* Core - Brightest center */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '200px',
-          height: '200px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 1) 0%, rgba(98, 191, 164, 0.9) 15%, rgba(98, 191, 164, 0.6) 40%, transparent 100%)',
-          filter: 'blur(20px)',
-        }}
-        animate={{
-          opacity: isMoving ? 1 : 0,
-          scale: isMoving ? 1 : 0.8,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.1 : 1, ease: 'easeOut' },
-          scale: { duration: 0.5, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Inner glow layer 1 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '400px',
-          height: '400px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.85) 0%, rgba(98, 191, 164, 0.7) 10%, rgba(98, 191, 164, 0.45) 30%, rgba(98, 191, 164, 0.2) 60%, transparent 100%)',
-          filter: 'blur(35px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.95 : 0,
-          scale: isMoving ? 1 : 0.85,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.12 : 1, ease: 'easeOut' },
-          scale: { duration: 0.6, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Inner glow layer 2 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '600px',
-          height: '600px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.75) 0%, rgba(98, 191, 164, 0.55) 12%, rgba(98, 191, 164, 0.35) 35%, rgba(98, 191, 164, 0.15) 65%, transparent 100%)',
-          filter: 'blur(50px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.9 : 0,
-          scale: isMoving ? 1 : 0.9,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.15 : 1.05, ease: 'easeOut' },
-          scale: { duration: 0.65, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Middle layer 1 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '900px',
-          height: '900px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.65) 0%, rgba(98, 191, 164, 0.45) 15%, rgba(98, 191, 164, 0.28) 40%, rgba(98, 191, 164, 0.12) 70%, transparent 100%)',
-          filter: 'blur(70px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.85 : 0,
-          scale: isMoving ? 1 : 0.92,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.18 : 1.1, ease: 'easeOut' },
-          scale: { duration: 0.7, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Middle layer 2 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '1200px',
-          height: '1200px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.55) 0%, rgba(98, 191, 164, 0.38) 18%, rgba(98, 191, 164, 0.22) 45%, rgba(98, 191, 164, 0.1) 75%, transparent 100%)',
-          filter: 'blur(90px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.8 : 0,
-          scale: isMoving ? 1 : 0.94,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.2 : 1.15, ease: 'easeOut' },
-          scale: { duration: 0.75, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Outer layer 1 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '1600px',
-          height: '1600px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.45) 0%, rgba(98, 191, 164, 0.3) 20%, rgba(98, 191, 164, 0.18) 50%, rgba(98, 191, 164, 0.08) 78%, transparent 100%)',
-          filter: 'blur(110px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.75 : 0,
-          scale: isMoving ? 1 : 0.96,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.22 : 1.2, ease: 'easeOut' },
-          scale: { duration: 0.8, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Outer layer 2 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '2000px',
-          height: '2000px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.38) 0%, rgba(98, 191, 164, 0.24) 22%, rgba(98, 191, 164, 0.14) 52%, rgba(98, 191, 164, 0.06) 80%, transparent 100%)',
-          filter: 'blur(130px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.7 : 0,
-          scale: isMoving ? 1 : 0.97,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.25 : 1.25, ease: 'easeOut' },
-          scale: { duration: 0.85, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Far outer layer 1 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '2500px',
-          height: '2500px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.3) 0%, rgba(98, 191, 164, 0.18) 25%, rgba(98, 191, 164, 0.1) 55%, rgba(98, 191, 164, 0.04) 82%, transparent 100%)',
-          filter: 'blur(150px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.65 : 0,
-          scale: isMoving ? 1 : 0.98,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.28 : 1.3, ease: 'easeOut' },
-          scale: { duration: 0.9, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Far outer layer 2 */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '3000px',
-          height: '3000px',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.25) 0%, rgba(98, 191, 164, 0.14) 28%, rgba(98, 191, 164, 0.08) 58%, rgba(98, 191, 164, 0.03) 85%, transparent 100%)',
-          filter: 'blur(170px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.6 : 0,
-          scale: isMoving ? 1 : 0.98,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.3 : 1.35, ease: 'easeOut' },
-          scale: { duration: 0.95, ease: 'easeOut' },
-        }}
-      />
-
-      {/* Extreme outer layer - subtle atmosphere */}
-      <motion.div
-        className="absolute"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: '60vw',
-          height: '60vw',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(98, 191, 164, 0.2) 0%, rgba(98, 191, 164, 0.1) 30%, rgba(98, 191, 164, 0.05) 60%, rgba(98, 191, 164, 0.02) 88%, transparent 100%)',
-          filter: 'blur(200px)',
-        }}
-        animate={{
-          opacity: isMoving ? 0.55 : 0,
-          scale: isMoving ? 1 : 0.99,
-        }}
-        transition={{
-          opacity: { duration: isMoving ? 0.32 : 1.4, ease: 'easeOut' },
-          scale: { duration: 1, ease: 'easeOut' },
-        }}
-      />
+      {layers}
     </motion.div>
   )
 }

@@ -3,24 +3,18 @@
 import { useEffect, useState } from 'react'
 
 export function useIntroSession() {
-  // Default to true to avoid flash, will be corrected in useEffect if needed
+  // Always show intro on every page load
   const [shouldShowIntro, setShouldShowIntro] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if intro has been seen this session
-    const introSeen = sessionStorage.getItem('olosoma-intro-seen')
-
-    if (introSeen) {
-      // Intro was already seen, hide it
-      setShouldShowIntro(false)
-    }
-
+    // Always show intro - no session check
+    setShouldShowIntro(true)
     setIsLoading(false)
   }, [])
 
   const markIntroAsSeen = () => {
-    sessionStorage.setItem('olosoma-intro-seen', 'true')
+    // Intro completes but doesn't persist - will show again on next visit
     setShouldShowIntro(false)
   }
 
