@@ -1,7 +1,8 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { IntroExperience } from './IntroExperience'
+import { LightBeamExperience } from './LightBeamExperience'
 import { useIntroSession } from '@/hooks/useIntroSession'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -11,6 +12,22 @@ interface IntroWrapperProps {
 
 export function IntroWrapper({ children }: IntroWrapperProps) {
   const { shouldShowIntro, isLoading, markIntroAsSeen } = useIntroSession()
+  const [introMode, setIntroMode] = useState<'default' | 'experimental'>('default')
+
+  // Check for experimental intro query parameter
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const searchParams = new URLSearchParams(window.location.search)
+    const mode = searchParams.get('intro')
+
+    if (mode === 'experimental') {
+      setIntroMode('experimental')
+      console.log('🌟 Experimental Light Beam Intro activated')
+    } else {
+      setIntroMode('default')
+    }
+  }, [])
 
   const handleIntroComplete = () => {
     markIntroAsSeen()
@@ -25,8 +42,14 @@ export function IntroWrapper({ children }: IntroWrapperProps) {
 
   return (
     <>
-      {/* Intro Experience */}
-      {shouldShowIntro && <IntroExperience onComplete={handleIntroComplete} />}
+      {/* Intro Experience - Conditional based on mode */}
+      {shouldShowIntro && introMode === 'default' && (
+        <IntroExperience onComplete={handleIntroComplete} />
+      )}
+
+      {shouldShowIntro && introMode === 'experimental' && (
+        <LightBeamExperience onComplete={handleIntroComplete} />
+      )}
 
       {/* Main Content - Hidden during intro, fades in after */}
       <motion.div

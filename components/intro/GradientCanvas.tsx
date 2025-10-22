@@ -40,10 +40,10 @@ export function GradientCanvas({ progress }: GradientCanvasProps) {
       } else {
         // Rest: teal variations
         const tealColors = [
-          'rgba(98, 191, 164, 0.35)',    // Main teal
-          'rgba(72, 180, 160, 0.32)',    // Darker teal
+          'rgba(98, 191, 165, 0.66)',    // Main teal
+          'rgba(72, 180, 160, 0.11)',    // Darker teal
           'rgba(120, 200, 180, 0.3)',    // Light teal
-          'rgba(85, 195, 170, 0.33)',    // Medium teal
+          'rgba(145, 165, 160, 0.33)',    // Medium teal
         ]
         color = tealColors[(i - 1) % tealColors.length]
       }
