@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll } from 'framer-motion'
 import { MorphingLightCanvas } from './MorphingLightCanvas'
 import { RandomPrintDecoration } from './PrintIcons'
-import { SocialIcons } from './SocialIcons'
+import { SideMenu } from './SideMenu'
 
 /**
  * ExperimentalLanding - Radical grid layout with morphing backgrounds
@@ -96,20 +96,25 @@ export function ExperimentalLanding() {
 
   return (
     <div ref={containerRef} className="relative min-h-screen bg-[#1e1d1d] text-white overflow-hidden">
+      {/* Side Menu */}
+      <SideMenu />
+
       {/* Morphing Light Background */}
       <div className="fixed inset-0 z-0">
         <MorphingLightCanvas scrollProgress={scrollProgress} />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10">
+      {/* Main Content - Add left padding for desktop side menu */}
+      <div className="relative z-10 md:pl-20 lg:pl-24">
         {/* Hero Section */}
         <HeroSection scrollProgress={scrollProgress} />
 
         {/* Product Sections */}
-        {products.map((product, index) => (
-          <ProductSection key={product.id} product={product} index={index} scrollProgress={scrollProgress} />
-        ))}
+        <div id="services">
+          {products.map((product, index) => (
+            <ProductSection key={product.id} product={product} index={index} scrollProgress={scrollProgress} />
+          ))}
+        </div>
 
         {/* Footer */}
         <Footer />
@@ -431,26 +436,20 @@ function FullLayout({ product, index }: { product: Product; index: number }) {
 
 function Footer() {
   return (
-    <footer className="relative py-24 px-6 md:px-12">
+    <footer id="connect" className="relative py-24 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          <div className="space-y-6">
-            <h3 className="text-3xl md:text-4xl font-bold">Let's Create Together</h3>
-            <p className="text-lg text-white/60 max-w-md">
-              Ready to transform your vision into reality? We're here to listen, collaborate, and deliver exceptional
-              results.
-            </p>
-            <a
-              href="mailto:hello@olosoma.com"
-              className="inline-block px-8 py-4 border-2 border-white/30 rounded-full hover:bg-white/10 transition-colors duration-300 text-sm tracking-wide uppercase"
-            >
-              Start a Project
-            </a>
-          </div>
-
-          <div className="flex items-center justify-center md:justify-end">
-            <SocialIcons />
-          </div>
+        <div className="max-w-2xl mx-auto text-center space-y-8 mb-16">
+          <h3 className="text-4xl md:text-5xl font-bold">Let's Create Together</h3>
+          <p className="text-xl text-white/60">
+            Ready to transform your vision into reality? We're here to listen, collaborate, and deliver exceptional
+            results.
+          </p>
+          <a
+            href="mailto:hello@olosoma.com"
+            className="inline-block px-10 py-5 border-2 border-white/30 rounded-full hover:bg-white/10 hover:border-[#62bfa4] transition-all duration-300 text-sm tracking-wide uppercase font-medium"
+          >
+            Start a Project
+          </a>
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">

@@ -79,23 +79,23 @@ const waypoints: Waypoint[] = [
     scrollRange: [0, 0.14] // MUCH LONGER initial pause (14% of total scroll)
   },
 
-  // Waypoint 1: Spatial Design - Top-left, beam points right-down toward text
+  // Waypoint 1: Spatial Design - Top-left, beam rotates 130 degrees clockwise
   {
     position: [1, 1], // Desktop: Top-left
     mobilePosition: [0, 0], // Mobile: Top-left
     text: 'Spatial Design\nArchitecture that shapes experience',
-    beamAngle: 135, // Desktop: Point down-right
-    mobileBeamAngle: 120, // Mobile: Adjust for 2-col layout
+    beamAngle: 130, // Rotate 130 degrees clockwise
+    mobileBeamAngle: 130, // Same for mobile
     scrollRange: [0.14, 0.30] // MUCH LONGER - 16% of total scroll
   },
 
-  // Waypoint 2: Brand Strategy - Middle-right, beam points left toward text
+  // Waypoint 2: Brand Strategy - Middle-right, beam rotates 170 degrees
   {
     position: [2, 4], // Desktop: Middle-right
     mobilePosition: [1, 1], // Mobile: Second row, right
     text: 'Brand Strategy\nIdentity systems that resonate',
-    beamAngle: 180, // Desktop: Point left
-    mobileBeamAngle: 90, // Mobile: Point down from above
+    beamAngle: 170, // Rotate 170 degrees
+    mobileBeamAngle: 170, // Same for mobile
     scrollRange: [0.30, 0.46] // MUCH LONGER - 16% of total scroll
   },
 
@@ -109,13 +109,13 @@ const waypoints: Waypoint[] = [
     scrollRange: [0.46, 0.62] // MUCH LONGER - 16% of total scroll
   },
 
-  // Waypoint 4: Product Development - Center, beam points down
+  // Waypoint 4: Product Development - Center, beam rotates 180 degrees
   {
     position: [3, 3], // Desktop: Center
     mobilePosition: [3, 1], // Mobile: Fourth row, right
     text: 'Product Development\nInnovation from concept to reality',
-    beamAngle: 90, // Desktop: Point down
-    mobileBeamAngle: 90, // Mobile: Same
+    beamAngle: 180, // Rotate 180 degrees
+    mobileBeamAngle: 180, // Same for mobile
     scrollRange: [0.62, 0.78] // MUCH LONGER - 16% of total scroll
   },
 
@@ -252,10 +252,10 @@ export function getBeamState(scrollProgress: number, isMobile: boolean = false):
   const waypointSizeBoost = isAtWaypoint ? 160 : 0 // Was 80
   const size = baseSize + waypointSizeBoost
 
-  // Intensity - fade at final waypoint for logo reveal
-  const isFinalWaypoint = scrollProgress >= 0.92
+  // Intensity - fade at 97% for logo reveal
+  const isFinalWaypoint = scrollProgress >= 0.97
   const baseIntensity = isFinalWaypoint
-    ? Math.max(0, 1 - (scrollProgress - 0.92) * 10) // Fade out quickly at end (adjusted for 0.92-1.0 range)
+    ? Math.max(0, 1 - (scrollProgress - 0.97) * 33.33) // Fade out quickly after 97%
     : Math.min(1, 0.35 + scrollProgress * 0.65)
   const waypointBoost = isAtWaypoint && !isFinalWaypoint ? 0.2 : 0
   const intensity = Math.min(1, baseIntensity + waypointBoost)

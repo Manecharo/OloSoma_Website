@@ -112,12 +112,7 @@ export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps
                       : 'text-lg md:text-xl lg:text-2xl font-light tracking-wide'
                   }`}
                   style={{
-                    textShadow: `0 0 ${80 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.2}),
-                                 0 0 ${60 * textIllumination}px rgba(255, 255, 255, ${textIllumination * 1.0}),
-                                 0 0 ${120 * textIllumination}px rgba(100, 177, 242, ${textIllumination * 0.8}),
-                                 0 0 ${40 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.5})`,
-                    filter: `brightness(${1 + textIllumination * 2.0})`,
-                    opacity: Math.max(0.4, textIllumination * 0.6 + 0.4),
+                    opacity: 1,
                     fontFamily: index === 0 ? "'Inter', sans-serif" : "'Inter', sans-serif",
                     letterSpacing: index === 0 ? '-0.02em' : '0.02em'
                   }}

@@ -54,50 +54,68 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
       // Clear canvas
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
 
-      // Generate multiple morphing shapes
+      // Generate multiple morphing shapes with continuous movement
+      const scrollOffset = scrollProgress * 200 // Shapes move with scroll
+
       renderMorphingShape(ctx, {
-        centerX: dimensions.width * 0.2,
-        centerY: dimensions.height * 0.3,
-        baseRadius: 300,
+        centerX: dimensions.width * 0.15 + Math.sin(timeRef.current * 0.1) * 100,
+        centerY: dimensions.height * 0.25 + Math.cos(timeRef.current * 0.15) * 80 - scrollOffset,
+        baseRadius: 350 + Math.sin(timeRef.current * 0.2) * 50,
         scrollProgress,
         time: timeRef.current,
         colorStops: [
-          { offset: 0, color: 'rgba(242, 100, 139, 0.4)' }, // #f2648b
-          { offset: 0.5, color: 'rgba(180, 100, 200, 0.3)' },
-          { offset: 1, color: 'rgba(100, 177, 242, 0.2)' } // #64b1f2
+          { offset: 0, color: 'rgba(242, 100, 139, 0.5)' },
+          { offset: 0.5, color: 'rgba(180, 100, 200, 0.4)' },
+          { offset: 1, color: 'rgba(100, 177, 242, 0.2)' }
         ],
-        morphSpeed: 0.3,
+        morphSpeed: 0.4,
         shapeVariation: 1
       })
 
       renderMorphingShape(ctx, {
-        centerX: dimensions.width * 0.7,
-        centerY: dimensions.height * 0.6,
-        baseRadius: 350,
+        centerX: dimensions.width * 0.75 + Math.cos(timeRef.current * 0.12) * 120,
+        centerY: dimensions.height * 0.5 + Math.sin(timeRef.current * 0.18) * 100 + scrollOffset * 0.5,
+        baseRadius: 400 + Math.cos(timeRef.current * 0.25) * 60,
         scrollProgress,
-        time: timeRef.current + 2, // Phase offset
+        time: timeRef.current + 2.5,
         colorStops: [
-          { offset: 0, color: 'rgba(98, 191, 164, 0.4)' }, // #62bfa4
-          { offset: 0.5, color: 'rgba(100, 177, 242, 0.3)' },
+          { offset: 0, color: 'rgba(98, 191, 164, 0.5)' },
+          { offset: 0.5, color: 'rgba(100, 177, 242, 0.4)' },
           { offset: 1, color: 'rgba(242, 100, 139, 0.2)' }
         ],
-        morphSpeed: 0.4,
+        morphSpeed: 0.5,
         shapeVariation: 2
       })
 
       renderMorphingShape(ctx, {
-        centerX: dimensions.width * 0.5,
-        centerY: dimensions.height * 0.8,
-        baseRadius: 280,
+        centerX: dimensions.width * 0.45 + Math.sin(timeRef.current * 0.15) * 90,
+        centerY: dimensions.height * 0.75 + Math.cos(timeRef.current * 0.2) * 70 + scrollOffset,
+        baseRadius: 320 + Math.sin(timeRef.current * 0.3) * 40,
         scrollProgress,
-        time: timeRef.current + 4,
+        time: timeRef.current + 5,
         colorStops: [
-          { offset: 0, color: 'rgba(100, 177, 242, 0.35)' },
-          { offset: 0.5, color: 'rgba(98, 191, 164, 0.25)' },
-          { offset: 1, color: 'rgba(180, 100, 200, 0.15)' }
+          { offset: 0, color: 'rgba(100, 177, 242, 0.45)' },
+          { offset: 0.5, color: 'rgba(98, 191, 164, 0.35)' },
+          { offset: 1, color: 'rgba(180, 100, 200, 0.2)' }
         ],
-        morphSpeed: 0.5,
+        morphSpeed: 0.6,
         shapeVariation: 3
+      })
+
+      // Additional floating shapes for more visual interest
+      renderMorphingShape(ctx, {
+        centerX: dimensions.width * 0.85 + Math.cos(timeRef.current * 0.08) * 60,
+        centerY: dimensions.height * 0.15 + Math.sin(timeRef.current * 0.11) * 50 - scrollOffset * 0.8,
+        baseRadius: 250 + Math.sin(timeRef.current * 0.18) * 30,
+        scrollProgress,
+        time: timeRef.current + 7.5,
+        colorStops: [
+          { offset: 0, color: 'rgba(242, 100, 139, 0.35)' },
+          { offset: 0.5, color: 'rgba(100, 177, 242, 0.25)' },
+          { offset: 1, color: 'rgba(98, 191, 164, 0.15)' }
+        ],
+        morphSpeed: 0.35,
+        shapeVariation: 4
       })
 
       animationFrameRef.current = requestAnimationFrame(render)
