@@ -1,17 +1,15 @@
-import { Hero } from '@/components/features/hero/Hero'
-import { Philosophy } from '@/components/features/philosophy/Philosophy'
-import { ServicesSection } from '@/components/features/services/ServicesSection'
-import { DualVision } from '@/components/features/team/DualVision'
-import { ClosingCTA } from '@/components/features/cta/ClosingCTA'
+import { ExperimentalLanding } from '@/components/experimental/ExperimentalLanding'
 
+/**
+ * Homepage
+ *
+ * Displays the experimental landing page featuring:
+ * - Brutalist hero section with color-transitioning logo
+ * - Animated morphing gradient backgrounds
+ * - Services sections with alternating blur effects
+ * - About section with company philosophy
+ * - Mesmerizing contact section with animated gradients
+ */
 export default function Home() {
-  return (
-    <main className="overflow-hidden">
-      <Hero />
-      <Philosophy />
-      <ServicesSection />
-      <DualVision />
-      <ClosingCTA />
-    </main>
-  );
+  return <ExperimentalLanding />
 }

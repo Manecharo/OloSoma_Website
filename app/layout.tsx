@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 import { CursorTrail, BreathingNoise } from "@/components/effects";
 import { IntroWrapper } from "@/components/intro/IntroWrapper";
 
@@ -15,11 +13,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://olosoma.com'),
   title: {
-    default: 'OloSoma | Where Potential Finds Form',
+    default: 'OloSoma | Systems of Meaning',
     template: '%s | OloSoma',
   },
-  description: 'A global design consultancy where soft logic meets real form—transforming the invisible into integrated experiences.',
-  keywords: ['design consultancy', 'spatial design', 'experience design', 'product design', 'brand identity', 'luxury hospitality', 'digital transformation'],
+  description: 'Design × Technology × Human Emotion. We craft systems where potential finds form—transforming vision into integrated experiences.',
+  keywords: ['design consultancy', 'spatial design', 'AI-augmented design', 'brand strategy', 'experience design', 'systems of meaning'],
   authors: [{ name: 'OloSoma Design Consultancy' }],
   creator: 'OloSoma',
   icons: {
@@ -42,8 +40,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://olosoma.com',
     siteName: 'OloSoma',
-    title: 'OloSoma | Where Potential Finds Form',
-    description: 'A global design consultancy where soft logic meets real form—transforming the invisible into integrated experiences.',
+    title: 'OloSoma | Systems of Meaning',
+    description: 'Design × Technology × Human Emotion. Crafting systems where potential finds form.',
     images: [
       {
         url: '/og-image.jpg',
@@ -55,8 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OloSoma | Where Potential Finds Form',
-    description: 'A global design consultancy where soft logic meets real form.',
+    title: 'OloSoma | Systems of Meaning',
+    description: 'Design × Technology × Human Emotion.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -94,10 +92,9 @@ export default function RootLayout({
           scale={1.5}
         />
 
+        {/* IntroWrapper manages light beam intro, children = main content */}
         <IntroWrapper>
-          <Header />
           {children}
-          <Footer />
         </IntroWrapper>
       </body>
     </html>
