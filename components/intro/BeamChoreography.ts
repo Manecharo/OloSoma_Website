@@ -30,18 +30,38 @@ export interface BeamPosition {
  * Waypoint definition with text and beam direction
  */
 interface Waypoint {
-  position: [number, number] // [row, col] in 6×6 grid
+  position: [number, number] // [row, col] in desktop 6×6 grid
+  mobilePosition: [number, number] // [row, col] in mobile 2×6 grid (2 wide, 6 high)
   text: string
   beamAngle: number // Direction beam points (degrees)
+  mobileBeamAngle: number // Direction for mobile layout
   scrollRange: [number, number] // [start, end] including pause time
 }
 
 // Convert grid [row, col] to percentage
-function gridToPercentage(row: number, col: number): { x: number; y: number } {
-  const cellSize = 100 / 6
-  return {
-    x: col * cellSize + cellSize / 2,
-    y: row * cellSize + cellSize / 2
+function gridToPercentage(row: number, col: number, isMobile: boolean = false): { x: number; y: number } {
+  if (isMobile) {
+    // Mobile: 2 columns × 6 rows with padding (10% top/bottom, 15% left/right)
+    const cols = 2
+    const rows = 6
+    const paddingX = 15 // 15% padding on left/right
+    const paddingY = 10 // 10% padding on top/bottom
+    const usableWidth = 100 - paddingX * 2
+    const usableHeight = 100 - paddingY * 2
+    const cellWidth = usableWidth / cols
+    const cellHeight = usableHeight / rows
+
+    return {
+      x: paddingX + col * cellWidth + cellWidth / 2,
+      y: paddingY + row * cellHeight + cellHeight / 2
+    }
+  } else {
+    // Desktop: 6×6 grid
+    const cellSize = 100 / 6
+    return {
+      x: col * cellSize + cellSize / 2,
+      y: row * cellSize + cellSize / 2
+    }
   }
 }
 
@@ -51,57 +71,71 @@ function gridToPercentage(row: number, col: number): { x: number; y: number } {
 const waypoints: Waypoint[] = [
   // Waypoint 0: Start - Bottom center
   {
-    position: [5, 2.5], // Bottom center
+    position: [5, 2.5], // Desktop: Bottom center
+    mobilePosition: [5, 1], // Mobile: Bottom center (2 cols)
     text: '',
     beamAngle: 270, // Point up
+    mobileBeamAngle: 270, // Same for mobile
     scrollRange: [0, 0.14] // MUCH LONGER initial pause (14% of total scroll)
   },
 
   // Waypoint 1: Spatial Design - Top-left, beam points right-down toward text
   {
-    position: [1, 1], // Top-left
+    position: [1, 1], // Desktop: Top-left
+    mobilePosition: [0, 0], // Mobile: Top-left
     text: 'Spatial Design\nArchitecture that shapes experience',
-    beamAngle: 135, // Point toward text (down-right from source)
+    beamAngle: 135, // Desktop: Point down-right
+    mobileBeamAngle: 120, // Mobile: Adjust for 2-col layout
     scrollRange: [0.14, 0.30] // MUCH LONGER - 16% of total scroll
   },
 
   // Waypoint 2: Brand Strategy - Middle-right, beam points left toward text
   {
-    position: [2, 4], // Middle-right
+    position: [2, 4], // Desktop: Middle-right
+    mobilePosition: [1, 1], // Mobile: Second row, right
     text: 'Brand Strategy\nIdentity systems that resonate',
-    beamAngle: 180, // Point toward text (left from source)
+    beamAngle: 180, // Desktop: Point left
+    mobileBeamAngle: 90, // Mobile: Point down from above
     scrollRange: [0.30, 0.46] // MUCH LONGER - 16% of total scroll
   },
 
   // Waypoint 3: Experience Design - Bottom-left, beam points up-right toward text
   {
-    position: [4, 1], // Bottom-left
+    position: [4, 1], // Desktop: Bottom-left
+    mobilePosition: [2, 0], // Mobile: Third row, left
     text: 'Experience Design\nJourneys that transform',
-    beamAngle: 45, // Point toward text (up-right from source)
+    beamAngle: 45, // Desktop: Point up-right
+    mobileBeamAngle: 60, // Mobile: Adjust angle
     scrollRange: [0.46, 0.62] // MUCH LONGER - 16% of total scroll
   },
 
   // Waypoint 4: Product Development - Center, beam points down
   {
-    position: [3, 3], // Center
+    position: [3, 3], // Desktop: Center
+    mobilePosition: [3, 1], // Mobile: Fourth row, right
     text: 'Product Development\nInnovation from concept to reality',
-    beamAngle: 90, // Point toward text (down from source)
+    beamAngle: 90, // Desktop: Point down
+    mobileBeamAngle: 90, // Mobile: Same
     scrollRange: [0.62, 0.78] // MUCH LONGER - 16% of total scroll
   },
 
   // Waypoint 5: Strategic Communications - Top-right, beam points down-left toward text
   {
-    position: [1, 4], // Top-right
+    position: [1, 4], // Desktop: Top-right
+    mobilePosition: [4, 0], // Mobile: Fifth row, left
     text: 'Strategic Communications\nNarratives that connect',
-    beamAngle: 225, // Point toward text (down-left from source)
+    beamAngle: 225, // Desktop: Point down-left
+    mobileBeamAngle: 135, // Mobile: Adjust angle
     scrollRange: [0.78, 0.92] // MUCH LONGER - 14% of total scroll
   },
 
   // Waypoint 6: Logo - Center, beam points outward (radial glow effect)
   {
-    position: [2.5, 2.5], // Center
+    position: [2.5, 2.5], // Desktop: Center
+    mobilePosition: [5, 1], // Mobile: Bottom center
     text: '', // Logo appears
-    beamAngle: 90, // Point down for symmetry
+    beamAngle: 90, // Desktop: Point down
+    mobileBeamAngle: 90, // Mobile: Same
     scrollRange: [0.92, 1.0] // Logo finale - 8% for final fade
   }
 ]
@@ -148,7 +182,7 @@ function interpolateWithPause(
 /**
  * Main choreography function
  */
-export function getBeamState(scrollProgress: number): BeamPosition {
+export function getBeamState(scrollProgress: number, isMobile: boolean = false): BeamPosition {
   // Find current waypoint segment
   let fromWaypoint: Waypoint | null = null
   let toWaypoint: Waypoint | null = null
@@ -193,16 +227,18 @@ export function getBeamState(scrollProgress: number): BeamPosition {
   // Determine if we're at a waypoint (paused) - updated for longer pause
   const isAtWaypoint = segmentProgress < 0.60 || segmentProgress > 0.95
 
-  // Interpolate position
-  const fromPos = gridToPercentage(fromWaypoint.position[0], fromWaypoint.position[1])
-  const toPos = gridToPercentage(toWaypoint!.position[0], toWaypoint!.position[1])
+  // Interpolate position - use mobile or desktop grid positions
+  const fromPosData = isMobile ? fromWaypoint.mobilePosition : fromWaypoint.position
+  const toPosData = isMobile ? toWaypoint!.mobilePosition : toWaypoint!.position
+  const fromPos = gridToPercentage(fromPosData[0], fromPosData[1], isMobile)
+  const toPos = gridToPercentage(toPosData[0], toPosData[1], isMobile)
 
   const x = fromPos.x + (toPos.x - fromPos.x) * travelProgress
   const y = fromPos.y + (toPos.y - fromPos.y) * travelProgress
 
-  // Interpolate angle for smooth rotation
-  let fromAngle = fromWaypoint.beamAngle
-  let toAngle = toWaypoint!.beamAngle
+  // Interpolate angle for smooth rotation - use mobile or desktop angles
+  let fromAngle = isMobile ? fromWaypoint.mobileBeamAngle : fromWaypoint.beamAngle
+  let toAngle = isMobile ? toWaypoint!.mobileBeamAngle : toWaypoint!.beamAngle
 
   // Handle angle wrapping (shortest path)
   let angleDiff = toAngle - fromAngle
@@ -257,11 +293,12 @@ export function getCurrentWaypointIndex(scrollProgress: number): number {
 /**
  * Get waypoint data for text rendering
  */
-export function getWaypointData(index: number): { text: string; position: { x: number; y: number } } | null {
+export function getWaypointData(index: number, isMobile: boolean = false): { text: string; position: { x: number; y: number } } | null {
   if (index < 0 || index >= waypoints.length) return null
 
   const waypoint = waypoints[index]
-  const pos = gridToPercentage(waypoint.position[0], waypoint.position[1])
+  const posData = isMobile ? waypoint.mobilePosition : waypoint.position
+  const pos = gridToPercentage(posData[0], posData[1], isMobile)
 
   return {
     text: waypoint.text,

@@ -12,6 +12,7 @@ import {
 
 interface GridTextRevealProps {
   scrollProgress: number
+  isMobile: boolean
 }
 
 /**
@@ -20,10 +21,10 @@ interface GridTextRevealProps {
  * Shows text at each waypoint when beam pauses
  * Text fades in when beam arrives, fades out when beam leaves
  */
-export function GridTextReveal({ scrollProgress }: GridTextRevealProps) {
-  const beamState = getBeamState(scrollProgress)
+export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps) {
+  const beamState = getBeamState(scrollProgress, isMobile)
   const currentWaypointIndex = getCurrentWaypointIndex(scrollProgress)
-  const waypointData = getWaypointData(currentWaypointIndex)
+  const waypointData = getWaypointData(currentWaypointIndex, isMobile)
   const isTextVisible = isTextVisibleAtWaypoint(scrollProgress, currentWaypointIndex)
 
   // Calculate text illumination based on distance from beam

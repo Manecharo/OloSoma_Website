@@ -5,6 +5,7 @@ import { getBeamState, BeamPosition } from './BeamChoreography'
 
 interface LightBeamCanvasProps {
   scrollProgress: number
+  isMobile: boolean
 }
 
 /**
@@ -16,7 +17,7 @@ interface LightBeamCanvasProps {
  * - Blurred colored tips at edges (purple/magenta/pink complementary colors)
  * - Rotates to point in different directions
  */
-export function LightBeamCanvas({ scrollProgress }: LightBeamCanvasProps) {
+export function LightBeamCanvas({ scrollProgress, isMobile }: LightBeamCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number | undefined>(undefined)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -57,7 +58,7 @@ export function LightBeamCanvas({ scrollProgress }: LightBeamCanvasProps) {
     ctx.scale(dpr, dpr)
 
     const render = () => {
-      const beamState = getBeamState(scrollProgress)
+      const beamState = getBeamState(scrollProgress, isMobile)
 
       // Clear canvas
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
@@ -77,7 +78,7 @@ export function LightBeamCanvas({ scrollProgress }: LightBeamCanvasProps) {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [scrollProgress, dimensions])
+  }, [scrollProgress, dimensions, isMobile])
 
   return (
     <canvas

@@ -24,9 +24,20 @@ interface LightBeamExperienceProps {
 export function LightBeamExperience({ onComplete }: LightBeamExperienceProps) {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartRef = useRef<number>(0)
   const currentScrollRef = useRef<number>(0)
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768) // md breakpoint
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // Total scroll distance to complete intro (3 viewport heights)
   const TOTAL_SCROLL_DISTANCE = typeof window !== 'undefined' ? window.innerHeight * 3.5 : 3500
@@ -152,11 +163,11 @@ export function LightBeamExperience({ onComplete }: LightBeamExperienceProps) {
 
           {/* Light Beam Canvas Layer */}
           <div className="absolute inset-0 z-10">
-            <LightBeamCanvas scrollProgress={scrollProgress} />
+            <LightBeamCanvas scrollProgress={scrollProgress} isMobile={isMobile} />
           </div>
 
           {/* Text and Logo Reveals */}
-          <GridTextReveal scrollProgress={scrollProgress} />
+          <GridTextReveal scrollProgress={scrollProgress} isMobile={isMobile} />
 
           {/* Skip Button */}
           <SkipButton onSkip={handleSkip} />
