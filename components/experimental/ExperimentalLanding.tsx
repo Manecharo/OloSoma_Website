@@ -116,6 +116,9 @@ export function ExperimentalLanding() {
           ))}
         </div>
 
+        {/* About Section */}
+        <AboutSection />
+
         {/* Footer */}
         <Footer />
       </div>
@@ -134,77 +137,118 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
     >
       <RandomPrintDecoration count={12} />
 
-      <div className="max-w-7xl mx-auto">
-        {/* Radical asymmetric grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          {/* Main title - occupies left side */}
-          <div className="md:col-span-7 flex flex-col justify-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight mb-6"
-              style={{
-                textShadow: '0 0 60px rgba(98, 191, 164, 0.3)'
-              }}
-            >
-              Systems
-              <br />
-              of
-              <br />
-              Meaning
-            </motion.h1>
+      <div className="max-w-6xl mx-auto text-center">
+        {/* Logo - Palpitating */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{
+            opacity: 1,
+            scale: [1, 1.05, 1.02, 1.08, 1]
+          }}
+          transition={{
+            opacity: { duration: 1 },
+            scale: {
+              duration: 1.2,
+              repeat: Infinity,
+              repeatDelay: 0.8,
+              ease: 'easeInOut',
+              times: [0, 0.15, 0.25, 0.45, 0.6],
+              delay: 0.3
+            }
+          }}
+          className="relative w-64 md:w-96 h-24 md:h-32 mx-auto mb-16"
+        >
+          <Image
+            src="/logo.svg"
+            alt="OloSoma"
+            fill
+            className="object-contain"
+            priority
+          />
+        </motion.div>
 
-            <motion.p
+        {/* Main Message */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-8"
+        >
+          Crafting Systems
+          <br />
+          <span className="text-[#62bfa4]">of Meaning</span>
+        </motion.h1>
+
+        {/* Tools & AI Statement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.7 }}
+          className="max-w-3xl mx-auto mb-12"
+        >
+          <p className="text-xl md:text-2xl font-light text-white/90 mb-8">
+            Powered by cutting-edge AI and the world's most advanced design tools
+          </p>
+
+          {/* Tool Icons Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="text-xl md:text-2xl font-light text-white/80 max-w-md"
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              We design experiences that bridge the physical and digital, creating holistic ecosystems where brands
-              thrive.
-            </motion.p>
-          </div>
-
-          {/* Side content - floating stats/info */}
-          <div className="md:col-span-5 flex flex-col justify-center space-y-8">
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="border-l-2 border-[#62bfa4] pl-6"
-            >
-              <div className="text-4xl font-bold mb-2">360°</div>
-              <div className="text-sm font-light text-white/60 tracking-wide uppercase">Integrated Approach</div>
+              <div className="text-3xl">🤖</div>
+              <div className="text-xs font-light text-white/70 uppercase tracking-wider">AI Design</div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-              className="border-l-2 border-[#64b1f2] pl-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1 }}
+              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-4xl font-bold mb-2">5</div>
-              <div className="text-sm font-light text-white/60 tracking-wide uppercase">Core Services</div>
+              <div className="text-3xl">⚡</div>
+              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Real-time</div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="border-l-2 border-[#f2648b] pl-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.1 }}
+              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-4xl font-bold mb-2">∞</div>
-              <div className="text-sm font-light text-white/60 tracking-wide uppercase">Possibilities</div>
+              <div className="text-3xl">🎯</div>
+              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Precision</div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+            >
+              <div className="text-3xl">∞</div>
+              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Iterative</div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.3 }}
+          className="text-base md:text-lg font-light text-white/60 italic"
+        >
+          Where human creativity meets computational intelligence
+        </motion.p>
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
+          transition={{ duration: 1, delay: 1.5 }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         >
           <div className="text-sm font-light text-white/60 tracking-[0.3em] uppercase">Explore</div>
@@ -429,6 +473,122 @@ function FullLayout({ product, index }: { product: Product; index: number }) {
         </motion.div>
       </div>
     </div>
+  )
+}
+
+function AboutSection() {
+  return (
+    <section id="about" className="relative min-h-screen flex items-center px-6 md:px-12 py-32 md:py-40">
+      {/* High blur effect for contrast */}
+      <div className="absolute inset-0 bg-[#1e1d1d]/70 backdrop-blur-[120px]" style={{ zIndex: -1 }} />
+
+      <RandomPrintDecoration count={10} />
+
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+          {/* Left Column - Philosophy */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div className="space-y-4">
+              <h2 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
+                About
+                <br />
+                <span className="text-[#62bfa4]">OloSoma</span>
+              </h2>
+              <div className="w-20 h-1 bg-[#62bfa4]" />
+            </div>
+
+            <div className="space-y-6 text-lg text-white/80 leading-relaxed">
+              <p>
+                We are architects of experience, crafting systems where design, technology, and human emotion converge
+                into something greater than the sum of their parts.
+              </p>
+              <p>
+                Every project is an exploration—a deliberate pursuit of beauty, function, and meaning. We believe the
+                most powerful work emerges at the intersection of intuition and intelligence, where AI augments human
+                creativity rather than replacing it.
+              </p>
+              <p>
+                Through spatial design, brand systems, and digital experiences, we build environments that don't just
+                communicate—they resonate, transform, and endure.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right Column - Approach & Values */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-12"
+          >
+            {/* Approach */}
+            <div className="space-y-6">
+              <h3 className="text-2xl md:text-3xl font-bold text-white/90">Our Approach</h3>
+              <div className="space-y-4">
+                {[
+                  {
+                    title: 'Human-Centered',
+                    description: 'Every solution begins with deep empathy for the people who will experience it.'
+                  },
+                  {
+                    title: 'Technologically Advanced',
+                    description: 'We harness AI and cutting-edge tools to push the boundaries of what\'s possible.'
+                  },
+                  {
+                    title: 'Aesthetically Rigorous',
+                    description: 'Beauty is not decoration—it\'s a fundamental requirement for meaningful work.'
+                  },
+                  {
+                    title: 'Strategically Grounded',
+                    description: 'Creative vision must serve business goals and drive measurable impact.'
+                  }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
+                    className="border-l-2 border-[#62bfa4]/40 pl-6 py-2"
+                  >
+                    <h4 className="font-semibold text-white/90 mb-1">{item.title}</h4>
+                    <p className="text-sm text-white/60 leading-relaxed">{item.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Stats or Highlights */}
+            <div className="grid grid-cols-3 gap-6 pt-6">
+              {[
+                { number: '15+', label: 'Years Combined' },
+                { number: '100+', label: 'Projects Delivered' },
+                { number: '3', label: 'Continents' }
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
+                  className="text-center space-y-2"
+                >
+                  <div className="text-3xl md:text-4xl font-bold text-[#62bfa4]">{stat.number}</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   )
 }
 

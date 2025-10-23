@@ -31,43 +31,30 @@ export function SideMenu() {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-24 bg-[#1e1d1d]/80 backdrop-blur-md border-r border-white/10 flex-col items-center py-8 z-50"
       >
-        {/* Palpitating Logo - transitions through colors */}
-        <motion.div
-          animate={{
-            scale: [1, 1.05, 1.02, 1.08, 1], // Heartbeat pattern
-          }}
-          transition={{
-            duration: 1.2,
-            repeat: Infinity,
-            repeatDelay: 0.8,
-            ease: 'easeInOut',
-            times: [0, 0.15, 0.25, 0.45, 0.6]
-          }}
-          className="relative w-16 lg:w-20 h-8 lg:h-10 mb-12"
-        >
+        {/* Palpitating Logo - visible and beating */}
+        <a href="#" className="relative w-16 lg:w-20 h-8 lg:h-10 mb-12">
           <motion.div
             animate={{
-              filter: [
-                'brightness(1) invert(0)', // Original colors
-                'brightness(10) grayscale(1)', // White
-                'brightness(0) invert(1)', // Black
-                'brightness(1) invert(0)' // Back to original
-              ]
+              scale: [1, 1.05, 1.02, 1.08, 1], // Heartbeat pattern
             }}
             transition={{
-              duration: 3.6, // 3 beats cycle
+              duration: 1.2,
               repeat: Infinity,
-              ease: 'easeInOut'
+              repeatDelay: 0.8,
+              ease: 'easeInOut',
+              times: [0, 0.15, 0.25, 0.45, 0.6]
             }}
+            className="relative w-full h-full"
           >
             <Image
               src="/logo.svg"
               alt="OloSoma"
               fill
-              className="object-contain"
+              className="object-contain brightness-100"
+              priority
             />
           </motion.div>
-        </motion.div>
+        </a>
 
         {/* Navigation Links */}
         <nav className="flex flex-col gap-8 flex-1 justify-center">
@@ -163,21 +150,17 @@ export function SideMenu() {
           {/* Mobile Logo */}
           <motion.div
             animate={{
-              scale: [1, 1.05, 1.02, 1.08, 1],
-              filter: [
-                'brightness(1) invert(0)',
-                'brightness(10) grayscale(1)',
-                'brightness(0) invert(1)',
-                'brightness(1) invert(0)'
-              ]
+              scale: [1, 1.05, 1.02, 1.08, 1]
             }}
             transition={{
-              scale: { duration: 1.2, repeat: Infinity, repeatDelay: 0.8, ease: 'easeInOut' },
-              filter: { duration: 3.6, repeat: Infinity, ease: 'easeInOut' }
+              duration: 1.2,
+              repeat: Infinity,
+              repeatDelay: 0.8,
+              ease: 'easeInOut'
             }}
             className="relative w-32 h-16 mb-8"
           >
-            <Image src="/logo.svg" alt="OloSoma" fill className="object-contain" />
+            <Image src="/logo.svg" alt="OloSoma" fill className="object-contain brightness-100" priority />
           </motion.div>
 
           {/* Mobile Navigation */}

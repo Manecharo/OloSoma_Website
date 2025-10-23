@@ -49,7 +49,7 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
     ctx.scale(dpr, dpr)
 
     const render = (time: number) => {
-      timeRef.current = time / 1000 // Convert to seconds
+      timeRef.current = (time / 1000) * 2 // Convert to seconds and 2x speed
 
       // Clear canvas
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
