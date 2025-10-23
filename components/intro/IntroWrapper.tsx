@@ -3,6 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { IntroExperience } from './IntroExperience'
 import { LightBeamExperience } from './LightBeamExperience'
+import { ExperimentalLanding } from '@/components/experimental/ExperimentalLanding'
 import { useIntroSession } from '@/hooks/useIntroSession'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -13,6 +14,7 @@ interface IntroWrapperProps {
 export function IntroWrapper({ children }: IntroWrapperProps) {
   const { shouldShowIntro, isLoading, markIntroAsSeen } = useIntroSession()
   const [introMode, setIntroMode] = useState<'default' | 'experimental'>('default')
+  const [useExperimentalLanding, setUseExperimentalLanding] = useState(false)
 
   // Check for experimental intro query parameter
   useEffect(() => {
@@ -23,9 +25,11 @@ export function IntroWrapper({ children }: IntroWrapperProps) {
 
     if (mode === 'experimental') {
       setIntroMode('experimental')
-      console.log('🌟 Experimental Light Beam Intro activated')
+      setUseExperimentalLanding(true)
+      console.log('🌟 Experimental Mode activated')
     } else {
       setIntroMode('default')
+      setUseExperimentalLanding(false)
     }
   }, [])
 
@@ -51,14 +55,14 @@ export function IntroWrapper({ children }: IntroWrapperProps) {
         <LightBeamExperience onComplete={handleIntroComplete} />
       )}
 
-      {/* Main Content - Hidden during intro, fades in after */}
+      {/* Main Content - Show experimental landing or normal children */}
       <motion.div
         initial={shouldShowIntro ? { opacity: 0 } : { opacity: 1 }}
         animate={{ opacity: shouldShowIntro ? 0 : 1 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
         style={{ pointerEvents: shouldShowIntro ? 'none' : 'auto' }}
       >
-        {children}
+        {useExperimentalLanding ? <ExperimentalLanding /> : children}
       </motion.div>
     </>
   )

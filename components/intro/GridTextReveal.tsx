@@ -103,19 +103,28 @@ export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps
             }}
           >
             <div className="px-8 py-6 max-w-md">
-              <p
-                className="text-xl md:text-2xl lg:text-3xl font-light text-white text-center leading-tight whitespace-pre-line"
-                style={{
-                  textShadow: `0 0 ${80 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.2}),
-                               0 0 ${60 * textIllumination}px rgba(255, 255, 255, ${textIllumination * 1.0}),
-                               0 0 ${120 * textIllumination}px rgba(100, 177, 242, ${textIllumination * 0.8}),
-                               0 0 ${40 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.5})`,
-                  filter: `brightness(${1 + textIllumination * 2.0})`,
-                  opacity: Math.max(0.4, textIllumination * 0.6 + 0.4) // Brighter base, stronger glow
-                }}
-              >
-                {waypointData.text}
-              </p>
+              {waypointData.text.split('\n').map((line, index) => (
+                <p
+                  key={index}
+                  className={`text-white text-center leading-tight ${
+                    index === 0
+                      ? 'text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2 md:mb-3'
+                      : 'text-lg md:text-xl lg:text-2xl font-light tracking-wide'
+                  }`}
+                  style={{
+                    textShadow: `0 0 ${80 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.2}),
+                                 0 0 ${60 * textIllumination}px rgba(255, 255, 255, ${textIllumination * 1.0}),
+                                 0 0 ${120 * textIllumination}px rgba(100, 177, 242, ${textIllumination * 0.8}),
+                                 0 0 ${40 * textIllumination}px rgba(98, 191, 164, ${textIllumination * 1.5})`,
+                    filter: `brightness(${1 + textIllumination * 2.0})`,
+                    opacity: Math.max(0.4, textIllumination * 0.6 + 0.4),
+                    fontFamily: index === 0 ? "'Inter', sans-serif" : "'Inter', sans-serif",
+                    letterSpacing: index === 0 ? '-0.02em' : '0.02em'
+                  }}
+                >
+                  {line}
+                </p>
+              ))}
             </div>
           </motion.div>
         )}
