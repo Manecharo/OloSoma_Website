@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion, useScroll } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { MorphingLightCanvas } from './MorphingLightCanvas'
 import { RandomPrintDecoration } from './PrintIcons'
 import { SideMenu } from './SideMenu'
