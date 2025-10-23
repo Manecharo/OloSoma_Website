@@ -134,130 +134,155 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
   return (
     <motion.section
       style={{ opacity }}
-      className="relative min-h-screen flex items-center justify-center px-6 md:px-12"
+      className="relative min-h-screen flex items-center justify-start px-6 md:px-12 py-20"
     >
-      <RandomPrintDecoration count={12} />
-
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Logo - Palpitating */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{
-            opacity: 1,
-            scale: [1, 1.05, 1.02, 1.08, 1]
-          }}
-          transition={{
-            opacity: { duration: 1 },
-            scale: {
-              duration: 1.2,
-              repeat: Infinity,
-              repeatDelay: 0.8,
-              ease: 'easeInOut',
-              times: [0, 0.15, 0.25, 0.45, 0.6],
-              delay: 0.3
-            }
-          }}
-          className="relative w-64 md:w-96 h-24 md:h-32 mx-auto mb-16"
-        >
-          <Image
-            src="/logo.svg"
-            alt="OloSoma"
-            fill
-            className="object-contain"
-            priority
-          />
-        </motion.div>
-
-        {/* Main Message */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight mb-8"
-        >
-          Crafting Systems
-          <br />
-          <span className="text-[#62bfa4]">of Meaning</span>
-        </motion.h1>
-
-        {/* Tools & AI Statement */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="max-w-3xl mx-auto mb-12"
-        >
-          <p className="text-xl md:text-2xl font-light text-white/90 mb-8">
-            Powered by cutting-edge AI and the world's most advanced design tools
-          </p>
-
-          {/* Tool Icons Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl">🤖</div>
-              <div className="text-xs font-light text-white/70 uppercase tracking-wider">AI Design</div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl">⚡</div>
-              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Real-time</div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.1 }}
-              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl">🎯</div>
-              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Precision</div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="flex flex-col items-center gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl">∞</div>
-              <div className="text-xs font-light text-white/70 uppercase tracking-wider">Iterative</div>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          className="text-base md:text-lg font-light text-white/60 italic"
-        >
-          Where human creativity meets computational intelligence
-        </motion.p>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-        >
-          <div className="text-sm font-light text-white/60 tracking-[0.3em] uppercase">Explore</div>
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Brutalist Grid Layout */}
+        <div className="grid grid-cols-12 gap-4 md:gap-6">
+          {/* Logo Block - Top Left */}
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-px h-12 bg-gradient-to-b from-white/60 to-transparent"
-          />
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="col-span-12 md:col-span-5 bg-black border-4 border-white p-8 md:p-10"
+          >
+            <motion.div
+              animate={{
+                filter: [
+                  'brightness(1) sepia(0)',
+                  'brightness(1.2) sepia(0.3) hue-rotate(150deg)',
+                  'brightness(0.9) sepia(0.2)',
+                  'brightness(1) sepia(0)'
+                ]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                times: [0, 0.33, 0.66, 1]
+              }}
+              className="relative w-full h-20 md:h-24"
+            >
+              <Image src="/logo.svg" alt="OloSoma" fill className="object-contain" priority />
+            </motion.div>
+          </motion.div>
+
+          {/* Main Headline - Top Right */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="col-span-12 md:col-span-7 bg-[#62bfa4] border-4 border-black p-8 md:p-10 flex items-center"
+          >
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase leading-none tracking-tighter text-black">
+              Systems
+              <br />
+              of Meaning
+            </h1>
+          </motion.div>
+
+          {/* AI Statement - Left */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="col-span-12 md:col-span-7 bg-white border-4 border-black p-8 md:p-10"
+          >
+            <p className="text-2xl md:text-3xl lg:text-4xl font-black uppercase text-black leading-tight mb-6">
+              AI × Design × Technology
+            </p>
+            <p className="text-base md:text-lg font-bold text-black/70 uppercase tracking-wide">
+              Next-Gen Tools. Human Vision.
+            </p>
+          </motion.div>
+
+          {/* Icon Grid - Right */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="col-span-12 md:col-span-5 grid grid-cols-2 gap-4"
+          >
+            {/* AI Icon */}
+            <div className="bg-black border-4 border-[#62bfa4] p-6 flex flex-col items-center justify-center aspect-square">
+              <svg className="w-12 h-12 md:w-16 md:h-16 mb-3" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="28" stroke="#62bfa4" strokeWidth="4" />
+                <circle cx="22" cy="26" r="4" fill="#62bfa4" />
+                <circle cx="42" cy="26" r="4" fill="#62bfa4" />
+                <rect x="20" y="38" width="24" height="4" fill="#62bfa4" />
+                <path d="M12 12 L20 20 M44 20 L52 12 M12 52 L20 44 M44 44 L52 52" stroke="#62bfa4" strokeWidth="3" />
+              </svg>
+              <span className="text-xs font-black uppercase text-[#62bfa4] tracking-wider">AI</span>
+            </div>
+
+            {/* Speed Icon */}
+            <div className="bg-black border-4 border-white p-6 flex flex-col items-center justify-center aspect-square">
+              <svg className="w-12 h-12 md:w-16 md:h-16 mb-3" viewBox="0 0 64 64" fill="none">
+                <path d="M8 32 L32 8 L32 28 L56 28 L32 56 L32 36 L8 36 Z" fill="white" />
+              </svg>
+              <span className="text-xs font-black uppercase text-white tracking-wider">Fast</span>
+            </div>
+
+            {/* Precision Icon */}
+            <div className="bg-black border-4 border-white p-6 flex flex-col items-center justify-center aspect-square">
+              <svg className="w-12 h-12 md:w-16 md:h-16 mb-3" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="4" fill="white" />
+                <circle cx="32" cy="32" r="12" stroke="white" strokeWidth="3" />
+                <circle cx="32" cy="32" r="20" stroke="white" strokeWidth="2" />
+                <circle cx="32" cy="32" r="28" stroke="white" strokeWidth="1" />
+                <line x1="32" y1="4" x2="32" y2="12" stroke="white" strokeWidth="3" />
+                <line x1="32" y1="52" x2="32" y2="60" stroke="white" strokeWidth="3" />
+                <line x1="4" y1="32" x2="12" y2="32" stroke="white" strokeWidth="3" />
+                <line x1="52" y1="32" x2="60" y2="32" stroke="white" strokeWidth="3" />
+              </svg>
+              <span className="text-xs font-black uppercase text-white tracking-wider">Precise</span>
+            </div>
+
+            {/* Infinite Icon */}
+            <div className="bg-black border-4 border-[#62bfa4] p-6 flex flex-col items-center justify-center aspect-square">
+              <svg className="w-12 h-12 md:w-16 md:h-16 mb-3" viewBox="0 0 64 64" fill="none">
+                <path
+                  d="M8 32 C8 24 12 20 18 20 C24 20 28 24 32 32 C36 40 40 44 46 44 C52 44 56 40 56 32 C56 24 52 20 46 20 C40 20 36 24 32 32 C28 40 24 44 18 44 C12 44 8 40 8 32 Z"
+                  stroke="#62bfa4"
+                  strokeWidth="4"
+                  fill="none"
+                />
+              </svg>
+              <span className="text-xs font-black uppercase text-[#62bfa4] tracking-wider">Iterate</span>
+            </div>
+          </motion.div>
+
+          {/* Bottom Statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="col-span-12 bg-[#1e1d1d] border-4 border-white/20 p-6 text-center"
+          >
+            <p className="text-sm md:text-base font-bold uppercase tracking-[0.2em] text-white/80">
+              Where Technology Amplifies Human Creativity
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Scroll Arrow - Brutalist Style */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="flex flex-col items-center gap-2"
+          >
+            <div className="w-8 h-8 border-4 border-white/60 flex items-center justify-center">
+              <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+                <path d="M8 2 L8 14 M3 9 L8 14 L13 9" stroke="white" strokeWidth="2" />
+              </svg>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </motion.section>

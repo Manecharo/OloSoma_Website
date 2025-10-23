@@ -31,18 +31,22 @@ export function SideMenu() {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-24 bg-[#1e1d1d]/80 backdrop-blur-md border-r border-white/10 flex-col items-center py-8 z-50"
       >
-        {/* Palpitating Logo - visible and beating */}
+        {/* Logo - Color transition only */}
         <a href="#" className="relative w-16 lg:w-20 h-8 lg:h-10 mb-12">
           <motion.div
             animate={{
-              scale: [1, 1.05, 1.02, 1.08, 1], // Heartbeat pattern
+              filter: [
+                'brightness(1) sepia(0)',
+                'brightness(1.2) sepia(0.3) hue-rotate(150deg)',
+                'brightness(0.9) sepia(0.2)',
+                'brightness(1) sepia(0)'
+              ]
             }}
             transition={{
-              duration: 1.2,
+              duration: 4,
               repeat: Infinity,
-              repeatDelay: 0.8,
               ease: 'easeInOut',
-              times: [0, 0.15, 0.25, 0.45, 0.6]
+              times: [0, 0.33, 0.66, 1]
             }}
             className="relative w-full h-full"
           >
@@ -50,7 +54,7 @@ export function SideMenu() {
               src="/logo.svg"
               alt="OloSoma"
               fill
-              className="object-contain brightness-100"
+              className="object-contain"
               priority
             />
           </motion.div>
@@ -150,17 +154,22 @@ export function SideMenu() {
           {/* Mobile Logo */}
           <motion.div
             animate={{
-              scale: [1, 1.05, 1.02, 1.08, 1]
+              filter: [
+                'brightness(1) sepia(0)',
+                'brightness(1.2) sepia(0.3) hue-rotate(150deg)',
+                'brightness(0.9) sepia(0.2)',
+                'brightness(1) sepia(0)'
+              ]
             }}
             transition={{
-              duration: 1.2,
+              duration: 4,
               repeat: Infinity,
-              repeatDelay: 0.8,
-              ease: 'easeInOut'
+              ease: 'easeInOut',
+              times: [0, 0.33, 0.66, 1]
             }}
             className="relative w-32 h-16 mb-8"
           >
-            <Image src="/logo.svg" alt="OloSoma" fill className="object-contain brightness-100" priority />
+            <Image src="/logo.svg" alt="OloSoma" fill className="object-contain" priority />
           </motion.div>
 
           {/* Mobile Navigation */}
