@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
 import { MorphingLightCanvas } from './MorphingLightCanvas'
 import { RandomPrintDecoration } from './PrintIcons'
 import { SideMenu } from './SideMenu'
