@@ -119,7 +119,8 @@ export function ExperimentalLanding() {
 }
 
 function HeroSection({ scrollProgress }: { scrollProgress: number }) {
-  const opacity = useTransform([scrollProgress], [0, 0.2], [1, 0])
+  // Calculate opacity based on scroll progress
+  const opacity = scrollProgress < 0.2 ? 1 - (scrollProgress / 0.2) : 0
 
   return (
     <motion.section
