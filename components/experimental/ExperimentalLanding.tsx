@@ -241,12 +241,10 @@ function ProductSection({
     <motion.section
       ref={sectionRef}
       style={{ opacity, scale }}
-      className={`relative min-h-screen flex items-center px-6 md:px-12 py-24 md:py-32 ${
-        product.blurEffect ? 'backdrop-blur-xl' : ''
-      }`}
+      className="relative min-h-screen flex items-center px-6 md:px-12 py-24 md:py-32"
     >
       {product.blurEffect && (
-        <div className="absolute inset-0 bg-[#1e1d1d]/40 backdrop-blur-3xl" style={{ zIndex: -1 }} />
+        <div className="absolute inset-0 bg-[#1e1d1d]/70 backdrop-blur-[120px]" style={{ zIndex: -1 }} />
       )}
 
       <RandomPrintDecoration count={6} />

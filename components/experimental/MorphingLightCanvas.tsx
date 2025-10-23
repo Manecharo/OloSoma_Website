@@ -57,16 +57,18 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
       // Generate multiple morphing shapes with continuous movement
       const scrollOffset = scrollProgress * 200 // Shapes move with scroll
 
+      // Primary teal shapes - dominant color
       renderMorphingShape(ctx, {
         centerX: dimensions.width * 0.15 + Math.sin(timeRef.current * 0.1) * 100,
         centerY: dimensions.height * 0.25 + Math.cos(timeRef.current * 0.15) * 80 - scrollOffset,
-        baseRadius: 350 + Math.sin(timeRef.current * 0.2) * 50,
+        baseRadius: 400 + Math.sin(timeRef.current * 0.2) * 60,
         scrollProgress,
         time: timeRef.current,
         colorStops: [
-          { offset: 0, color: 'rgba(242, 100, 139, 0.5)' },
-          { offset: 0.5, color: 'rgba(180, 100, 200, 0.4)' },
-          { offset: 1, color: 'rgba(100, 177, 242, 0.2)' }
+          { offset: 0, color: 'rgba(98, 191, 164, 0.7)' }, // Teal - main color
+          { offset: 0.5, color: 'rgba(98, 191, 164, 0.5)' }, // Teal - main color
+          { offset: 0.8, color: 'rgba(242, 100, 139, 0.15)' }, // Pink - subtle detail
+          { offset: 1, color: 'rgba(98, 191, 164, 0.1)' }
         ],
         morphSpeed: 0.4,
         shapeVariation: 1
@@ -75,13 +77,14 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
       renderMorphingShape(ctx, {
         centerX: dimensions.width * 0.75 + Math.cos(timeRef.current * 0.12) * 120,
         centerY: dimensions.height * 0.5 + Math.sin(timeRef.current * 0.18) * 100 + scrollOffset * 0.5,
-        baseRadius: 400 + Math.cos(timeRef.current * 0.25) * 60,
+        baseRadius: 450 + Math.cos(timeRef.current * 0.25) * 70,
         scrollProgress,
         time: timeRef.current + 2.5,
         colorStops: [
-          { offset: 0, color: 'rgba(98, 191, 164, 0.5)' },
-          { offset: 0.5, color: 'rgba(100, 177, 242, 0.4)' },
-          { offset: 1, color: 'rgba(242, 100, 139, 0.2)' }
+          { offset: 0, color: 'rgba(98, 191, 164, 0.8)' }, // Teal - main color
+          { offset: 0.4, color: 'rgba(98, 191, 164, 0.6)' }, // Teal - main color
+          { offset: 0.7, color: 'rgba(100, 177, 242, 0.2)' }, // Blue - subtle detail
+          { offset: 1, color: 'rgba(98, 191, 164, 0.15)' }
         ],
         morphSpeed: 0.5,
         shapeVariation: 2
@@ -90,29 +93,31 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
       renderMorphingShape(ctx, {
         centerX: dimensions.width * 0.45 + Math.sin(timeRef.current * 0.15) * 90,
         centerY: dimensions.height * 0.75 + Math.cos(timeRef.current * 0.2) * 70 + scrollOffset,
-        baseRadius: 320 + Math.sin(timeRef.current * 0.3) * 40,
+        baseRadius: 380 + Math.sin(timeRef.current * 0.3) * 50,
         scrollProgress,
         time: timeRef.current + 5,
         colorStops: [
-          { offset: 0, color: 'rgba(100, 177, 242, 0.45)' },
-          { offset: 0.5, color: 'rgba(98, 191, 164, 0.35)' },
-          { offset: 1, color: 'rgba(180, 100, 200, 0.2)' }
+          { offset: 0, color: 'rgba(98, 191, 164, 0.65)' }, // Teal - main color
+          { offset: 0.5, color: 'rgba(98, 191, 164, 0.45)' }, // Teal - main color
+          { offset: 0.85, color: 'rgba(180, 100, 200, 0.15)' }, // Purple - subtle detail
+          { offset: 1, color: 'rgba(98, 191, 164, 0.1)' }
         ],
         morphSpeed: 0.6,
         shapeVariation: 3
       })
 
-      // Additional floating shapes for more visual interest
+      // Additional floating shape - teal dominant
       renderMorphingShape(ctx, {
         centerX: dimensions.width * 0.85 + Math.cos(timeRef.current * 0.08) * 60,
         centerY: dimensions.height * 0.15 + Math.sin(timeRef.current * 0.11) * 50 - scrollOffset * 0.8,
-        baseRadius: 250 + Math.sin(timeRef.current * 0.18) * 30,
+        baseRadius: 320 + Math.sin(timeRef.current * 0.18) * 40,
         scrollProgress,
         time: timeRef.current + 7.5,
         colorStops: [
-          { offset: 0, color: 'rgba(242, 100, 139, 0.35)' },
-          { offset: 0.5, color: 'rgba(100, 177, 242, 0.25)' },
-          { offset: 1, color: 'rgba(98, 191, 164, 0.15)' }
+          { offset: 0, color: 'rgba(98, 191, 164, 0.6)' }, // Teal - main color
+          { offset: 0.6, color: 'rgba(98, 191, 164, 0.4)' }, // Teal - main color
+          { offset: 0.9, color: 'rgba(100, 177, 242, 0.12)' }, // Blue - subtle detail
+          { offset: 1, color: 'rgba(98, 191, 164, 0.08)' }
         ],
         morphSpeed: 0.35,
         shapeVariation: 4
