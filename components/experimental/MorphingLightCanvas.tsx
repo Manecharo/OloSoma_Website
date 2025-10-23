@@ -16,7 +16,7 @@ export function MorphingLightCanvas({ scrollProgress }: MorphingLightCanvasProps
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const timeRef = useRef(0)
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
 
   // Responsive canvas sizing
   useEffect(() => {
