@@ -621,34 +621,239 @@ function AboutSection() {
 }
 
 function Footer() {
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+
   return (
-    <footer id="connect" className="relative py-24 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="max-w-2xl mx-auto text-center space-y-8 mb-16">
-          <h3 className="text-4xl md:text-5xl font-bold">Let's Create Together</h3>
-          <p className="text-xl text-white/60">
-            Ready to transform your vision into reality? We're here to listen, collaborate, and deliver exceptional
-            results.
-          </p>
-          <a
-            href="mailto:hello@olosoma.com"
-            className="inline-block px-10 py-5 border-2 border-white/30 rounded-full hover:bg-white/10 hover:border-[#62bfa4] transition-all duration-300 text-sm tracking-wide uppercase font-medium"
+    <footer id="connect" className="relative min-h-screen flex items-center px-6 md:px-12 py-32 overflow-hidden">
+      {/* Mesmerizing background gradient animation */}
+      <div className="absolute inset-0 opacity-40">
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, #62bfa4 0%, transparent 50%)'
+          }}
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut'
+          }}
+        />
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 80% 20%, #64b1f2 0%, transparent 40%)'
+          }}
+          animate={{
+            scale: [1.5, 1, 1.5],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 1
+          }}
+        />
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 20% 80%, #f2648b 0%, transparent 40%)'
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.5, 0.2]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2
+          }}
+        />
+      </div>
+
+      {/* High blur overlay */}
+      <div className="absolute inset-0 bg-[#1e1d1d]/60 backdrop-blur-[100px]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Left - Message */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
           >
-            Start a Project
-          </a>
+            <div className="space-y-6">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none tracking-tighter"
+              >
+                Let's
+                <br />
+                <span className="text-[#62bfa4]">Create</span>
+              </motion.h2>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="border-l-4 border-[#62bfa4] pl-6 md:pl-8"
+              >
+                <p className="text-lg md:text-xl font-light text-white/80 leading-relaxed">
+                  Ready to transform vision into reality?
+                </p>
+              </motion.div>
+            </div>
+
+            {/* Animated decorative elements */}
+            <div className="flex gap-4 pt-8">
+              {[0, 1, 2, 3].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 rounded-full bg-[#62bfa4]"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.4, 1, 0.4]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                    ease: 'easeInOut'
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right - Contact Methods */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-8"
+          >
+            {/* Email */}
+            <motion.a
+              href="mailto:hello@olosoma.com"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              whileHover={{ x: 8 }}
+              className="group block"
+            >
+              <div className="border-l-2 border-white/20 pl-6 py-4 transition-all duration-300 group-hover:border-[#62bfa4]">
+                <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-2">Email</div>
+                <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#62bfa4] transition-colors">
+                  hello@olosoma.com
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Phone - Optional */}
+            <motion.a
+              href="tel:+1234567890"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              whileHover={{ x: 8 }}
+              className="group block"
+            >
+              <div className="border-l-2 border-white/20 pl-6 py-4 transition-all duration-300 group-hover:border-[#62bfa4]">
+                <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-2">Phone</div>
+                <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#62bfa4] transition-colors">
+                  +1 (234) 567-890
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Location */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="border-l-2 border-white/20 pl-6 py-4"
+            >
+              <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-2">Studio</div>
+              <div className="text-xl md:text-2xl font-light text-white/70">
+                Remote × Global
+              </div>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="pt-8"
+            >
+              <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-4">Connect</div>
+              <div className="flex gap-6">
+                <motion.a
+                  href="https://instagram.com/olosoma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -4, scale: 1.1 }}
+                  className="w-12 h-12 border-2 border-white/20 flex items-center justify-center hover:border-[#62bfa4] transition-colors"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="18" cy="6" r="1" fill="currentColor" />
+                  </svg>
+                </motion.a>
+                <motion.a
+                  href="https://linkedin.com/company/olosoma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -4, scale: 1.1 }}
+                  className="w-12 h-12 border-2 border-white/20 flex items-center justify-center hover:border-[#62bfa4] transition-colors"
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </motion.a>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
+        {/* Bottom Credits */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="mt-32 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40"
+        >
           <div>© {new Date().getFullYear()} OloSoma. All rights reserved.</div>
-          <div className="flex gap-6">
-            <a href="/privacy" className="hover:text-white/60 transition-colors">
+          <div className="flex gap-8">
+            <a href="/privacy" className="hover:text-white/60 transition-colors uppercase tracking-wide text-xs">
               Privacy
             </a>
-            <a href="/terms" className="hover:text-white/60 transition-colors">
+            <a href="/terms" className="hover:text-white/60 transition-colors uppercase tracking-wide text-xs">
               Terms
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   )
