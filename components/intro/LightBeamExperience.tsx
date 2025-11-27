@@ -161,16 +161,27 @@ export function LightBeamExperience({ onComplete }: LightBeamExperienceProps) {
             style={{ backgroundColor: '#1e1d1d' }}
           />
 
-          {/* Light Beam Canvas Layer */}
-          <div className="absolute inset-0 z-10">
+          {/* Light Beam Canvas Layer - appears 1 second after logo, instantly (no fade) */}
+          <motion.div
+            className="absolute inset-0 z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: scrollProgress < 0.08 ? 0 : 1 }}
+            transition={{ duration: 0.1, delay: 1 }} // 1 second delay, instant transition
+          >
             <LightBeamCanvas scrollProgress={scrollProgress} isMobile={isMobile} />
-          </div>
+          </motion.div>
 
           {/* Text and Logo Reveals */}
           <GridTextReveal scrollProgress={scrollProgress} isMobile={isMobile} />
 
-          {/* Skip Button */}
-          <SkipButton onSkip={handleSkip} />
+          {/* Skip Button - delayed by 3 seconds to match beam appearance */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 3 }}
+          >
+            <SkipButton onSkip={handleSkip} />
+          </motion.div>
 
           {/* Accessibility announcement */}
           <div className="sr-only" aria-live="polite" aria-atomic="true">
