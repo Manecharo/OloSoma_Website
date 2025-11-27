@@ -2,24 +2,29 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 /**
  * SideMenu - Rational vertical menu with palpitating logo
  *
  * Features:
  * - Logo that pulsates and transitions: main → white → black
- * - Clean navigation links
+ * - Clean navigation links that work across pages
  * - Responsive (collapses on mobile)
  */
 
 export function SideMenu() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
+  // Navigation items - use full page URLs for cross-page navigation
   const menuItems = [
-    { label: 'Services', href: '#services' },
-    { label: 'About', href: '#about' },
-    { label: 'Connect', href: '#connect' }
+    { label: 'Services', href: '/services', isExternal: false },
+    { label: 'About', href: isHomePage ? '#who-we-are' : '/#who-we-are', isExternal: false },
+    { label: 'Connect', href: isHomePage ? '#connect' : '/#connect', isExternal: false }
   ]
 
   return (
@@ -31,8 +36,8 @@ export function SideMenu() {
         transition={{ duration: 0.8, delay: 0.5 }}
         className="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-24 bg-[#1e1d1d]/80 backdrop-blur-md border-r border-white/10 flex-col items-center py-8 z-50"
       >
-        {/* Logo - Color transition only */}
-        <a href="#" className="relative w-16 lg:w-20 h-8 lg:h-10 mb-12">
+        {/* Logo - Links to home */}
+        <Link href="/" className="relative w-16 lg:w-20 h-8 lg:h-10 mb-12">
           <motion.div
             animate={{
               filter: [
@@ -52,13 +57,13 @@ export function SideMenu() {
           >
             <Image
               src="/logo.svg"
-              alt="OloSoma"
+              alt="OloSoma - Go to Home"
               fill
               className="object-contain"
               priority
             />
           </motion.div>
-        </a>
+        </Link>
 
         {/* Navigation Links */}
         <nav className="flex flex-col gap-8 flex-1 justify-center">
@@ -151,26 +156,28 @@ export function SideMenu() {
         className="md:hidden fixed inset-0 bg-[#1e1d1d]/95 backdrop-blur-xl z-40"
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
-          {/* Mobile Logo */}
-          <motion.div
-            animate={{
-              filter: [
-                'brightness(1) sepia(0)',
-                'brightness(1.2) sepia(0.3) hue-rotate(150deg)',
-                'brightness(0.9) sepia(0.2)',
-                'brightness(1) sepia(0)'
-              ]
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              times: [0, 0.33, 0.66, 1]
-            }}
-            className="relative w-32 h-16 mb-8"
-          >
-            <Image src="/logo.svg" alt="OloSoma" fill className="object-contain" priority />
-          </motion.div>
+          {/* Mobile Logo - Links to home */}
+          <Link href="/" onClick={() => setIsOpen(false)}>
+            <motion.div
+              animate={{
+                filter: [
+                  'brightness(1) sepia(0)',
+                  'brightness(1.2) sepia(0.3) hue-rotate(150deg)',
+                  'brightness(0.9) sepia(0.2)',
+                  'brightness(1) sepia(0)'
+                ]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                times: [0, 0.33, 0.66, 1]
+              }}
+              className="relative w-32 h-16 mb-8"
+            >
+              <Image src="/logo.svg" alt="OloSoma - Go to Home" fill className="object-contain" priority />
+            </motion.div>
+          </Link>
 
           {/* Mobile Navigation */}
           <nav className="flex flex-col items-center gap-6">

@@ -36,6 +36,8 @@ interface Waypoint {
   beamAngle: number // Direction beam points (degrees)
   mobileBeamAngle: number // Direction for mobile layout
   scrollRange: [number, number] // [start, end] including pause time
+  beamSpread?: number // Custom beam spread angle in degrees (default: 45)
+  beamSize?: number // Custom beam length multiplier (default: 1.0)
 }
 
 // Convert grid [row, col] to percentage
@@ -67,72 +69,83 @@ function gridToPercentage(row: number, col: number, isMobile: boolean = false): 
 
 /**
  * 6 Waypoints with professional text and poetic beam directions
+ * Positions adjusted to keep text within visible screen area
  */
 const waypoints: Waypoint[] = [
   // Waypoint 0: Start - Bottom center
   {
-    position: [5, 2.5], // Desktop: Bottom center
-    mobilePosition: [5, 1], // Mobile: Bottom center (2 cols)
+    position: [4, 2.5], // Desktop: Lower center (moved up from 5 to 4)
+    mobilePosition: [4, 1], // Mobile: Lower center (moved up)
     text: '',
     beamAngle: 270, // Point up
     mobileBeamAngle: 270, // Same for mobile
     scrollRange: [0, 0.14] // MUCH LONGER initial pause (14% of total scroll)
   },
 
-  // Waypoint 1: Spatial Design - Top-left, beam rotates 130 degrees clockwise
+  // Waypoint 1: Spatial Design - LEFT side - NARROW FOCUSED BEAM
   {
-    position: [1, 1], // Desktop: Top-left
-    mobilePosition: [0, 0], // Mobile: Top-left
+    position: [1.5, 1], // Desktop: Upper-left (moved to safe zone)
+    mobilePosition: [1, 0.5], // Mobile: Upper area, left
     text: 'Spatial Design\nArchitecture that shapes experience',
     beamAngle: 130, // Rotate 130 degrees clockwise
     mobileBeamAngle: 130, // Same for mobile
-    scrollRange: [0.14, 0.30] // MUCH LONGER - 16% of total scroll
+    scrollRange: [0.14, 0.30], // MUCH LONGER - 16% of total scroll
+    beamSpread: 35, // Narrow focused beam
+    beamSize: 1.2 // Longer beam
   },
 
-  // Waypoint 2: Brand Strategy - Middle-right, beam rotates 170 degrees
+  // Waypoint 2: Brand Strategy - RIGHT side - WIDE SPREAD BEAM
   {
-    position: [2, 4], // Desktop: Middle-right
-    mobilePosition: [1, 1], // Mobile: Second row, right
+    position: [2.5, 4.5], // Desktop: Middle-right (moved inward from edge)
+    mobilePosition: [2, 1.5], // Mobile: Second area, right
     text: 'Brand Strategy\nIdentity systems that resonate',
     beamAngle: 170, // Rotate 170 degrees
     mobileBeamAngle: 170, // Same for mobile
-    scrollRange: [0.30, 0.46] // MUCH LONGER - 16% of total scroll
+    scrollRange: [0.30, 0.46], // MUCH LONGER - 16% of total scroll
+    beamSpread: 60, // Wide spread beam
+    beamSize: 0.9 // Shorter beam
   },
 
-  // Waypoint 3: Experience Design - Bottom-left, beam points up-right toward text
+  // Waypoint 3: Experience Design - LEFT side - MEDIUM BEAM
   {
-    position: [4, 1], // Desktop: Bottom-left
-    mobilePosition: [2, 0], // Mobile: Third row, left
+    position: [3.5, 1], // Desktop: Mid-lower left (adjusted for visibility)
+    mobilePosition: [3, 0.5], // Mobile: Third area, left
     text: 'Experience Design\nJourneys that transform',
     beamAngle: 45, // Desktop: Point up-right
     mobileBeamAngle: 60, // Mobile: Adjust angle
-    scrollRange: [0.46, 0.62] // MUCH LONGER - 16% of total scroll
+    scrollRange: [0.46, 0.62], // MUCH LONGER - 16% of total scroll
+    beamSpread: 45, // Standard medium beam
+    beamSize: 1.0 // Standard length
   },
 
-  // Waypoint 4: Product Development - Center, beam rotates 180 degrees
+  // Waypoint 4: Product Development - RIGHT side - TIGHT LASER BEAM
   {
-    position: [3, 3], // Desktop: Center
-    mobilePosition: [3, 1], // Mobile: Fourth row, right
+    position: [2, 4.5], // Desktop: Upper-right (adjusted for visibility)
+    mobilePosition: [4, 1.5], // Mobile: Fourth area, right
     text: 'Product Development\nInnovation from concept to reality',
     beamAngle: 180, // Rotate 180 degrees
     mobileBeamAngle: 180, // Same for mobile
-    scrollRange: [0.62, 0.78] // MUCH LONGER - 16% of total scroll
+    scrollRange: [0.62, 0.78], // MUCH LONGER - 16% of total scroll
+    beamSpread: 25, // Very tight laser-like beam
+    beamSize: 1.4 // Extra long beam
   },
 
-  // Waypoint 5: Strategic Communications - Top-right, beam points down-left toward text
+  // Waypoint 5: Strategic Communications - LEFT side - EXPANDING BEAM
   {
-    position: [1, 4], // Desktop: Top-right
-    mobilePosition: [4, 0], // Mobile: Fifth row, left
+    position: [3, 1], // Desktop: Center-left (adjusted for visibility)
+    mobilePosition: [5, 0.5], // Mobile: Fifth area, left
     text: 'Strategic Communications\nNarratives that connect',
     beamAngle: 225, // Desktop: Point down-left
     mobileBeamAngle: 135, // Mobile: Adjust angle
-    scrollRange: [0.78, 0.92] // MUCH LONGER - 14% of total scroll
+    scrollRange: [0.78, 0.92], // MUCH LONGER - 14% of total scroll
+    beamSpread: 55, // Wide expanding beam
+    beamSize: 1.1 // Slightly longer
   },
 
   // Waypoint 6: Logo - Center, beam points outward (radial glow effect)
   {
     position: [2.5, 2.5], // Desktop: Center
-    mobilePosition: [5, 1], // Mobile: Bottom center
+    mobilePosition: [3, 1], // Mobile: Center (adjusted)
     text: '', // Logo appears
     beamAngle: 90, // Desktop: Point down
     mobileBeamAngle: 90, // Mobile: Same
@@ -247,9 +260,19 @@ export function getBeamState(scrollProgress: number, isMobile: boolean = false):
 
   const angle = fromAngle + angleDiff * travelProgress
 
+  // Interpolate beam spread between waypoints - each waypoint has unique spread
+  const fromSpread = fromWaypoint.beamSpread || 45
+  const toSpread = toWaypoint!.beamSpread || 45
+  const spread = fromSpread + (toSpread - fromSpread) * travelProgress
+
+  // Interpolate beam size between waypoints - each waypoint has unique size
+  const fromSizeMultiplier = fromWaypoint.beamSize || 1.0
+  const toSizeMultiplier = toWaypoint!.beamSize || 1.0
+  const sizeMultiplier = fromSizeMultiplier + (toSizeMultiplier - fromSizeMultiplier) * travelProgress
+
   // Size grows with overall progress - DOUBLED (2x larger)
-  const baseSize = 500 + scrollProgress * 800 // Was 250 + 400
-  const waypointSizeBoost = isAtWaypoint ? 160 : 0 // Was 80
+  const baseSize = (500 + scrollProgress * 800) * sizeMultiplier
+  const waypointSizeBoost = isAtWaypoint ? 160 : 0
   const size = baseSize + waypointSizeBoost
 
   // Intensity - fade at 97% for logo reveal
@@ -259,9 +282,6 @@ export function getBeamState(scrollProgress: number, isMobile: boolean = false):
     : Math.min(1, 0.35 + scrollProgress * 0.65)
   const waypointBoost = isAtWaypoint && !isFinalWaypoint ? 0.2 : 0
   const intensity = Math.min(1, baseIntensity + waypointBoost)
-
-  // Cone spread (width angle) - wider for better text illumination
-  const spread = isAtWaypoint ? 70 : 55 // Was 55:45
 
   // Blur at cone tip
   const blur = 120 + scrollProgress * 80

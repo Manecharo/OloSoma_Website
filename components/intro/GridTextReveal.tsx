@@ -95,26 +95,34 @@ export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps
               duration: 0.6,
               ease: [0.22, 1, 0.36, 1]
             }}
-            className="absolute"
+            className="absolute inset-x-0 flex items-center"
             style={{
-              left: `${waypointData.position.x}%`,
-              top: `${waypointData.position.y}%`,
-              transform: 'translate(-50%, -50%)'
+              top: `${Math.min(Math.max(waypointData.position.y, 15), 85)}%`,
+              transform: 'translateY(-50%)',
+              paddingLeft: '5vw',
+              paddingRight: '5vw'
             }}
           >
-            <div className="px-8 py-6 max-w-md">
+            <div
+              className={`w-full ${
+                waypointData.position.x < 50 ? 'text-left' : 'text-right'
+              }`}
+            >
               {waypointData.text.split('\n').map((line, index) => (
                 <p
                   key={index}
-                  className={`text-white text-center leading-tight ${
+                  className={`text-white leading-tight ${
                     index === 0
-                      ? 'text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-2 md:mb-3'
-                      : 'text-lg md:text-xl lg:text-2xl font-light tracking-wide'
+                      ? 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-2 sm:mb-3 md:mb-4'
+                      : 'text-sm sm:text-base md:text-lg lg:text-xl font-extralight tracking-wide'
                   }`}
                   style={{
                     opacity: 1,
-                    fontFamily: index === 0 ? "'Inter', sans-serif" : "'Inter', sans-serif",
-                    letterSpacing: index === 0 ? '-0.02em' : '0.02em'
+                    fontFamily: "'Inter', sans-serif",
+                    letterSpacing: index === 0 ? '-0.04em' : '0.03em',
+                    fontWeight: index === 0 ? 900 : 200,
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word'
                   }}
                 >
                   {line}
@@ -175,7 +183,7 @@ export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps
         )}
       </AnimatePresence>
 
-      {/* Scroll Indicator - Only at very beginning */}
+      {/* Scroll Indicator - Only at very beginning, delayed by 3 seconds to match beam */}
       {scrollProgress < 0.08 && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -184,7 +192,7 @@ export function GridTextReveal({ scrollProgress, isMobile }: GridTextRevealProps
             duration: 2,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: 0.5
+            delay: 3 // 3 second delay to match beam and skip button
           }}
           className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         >

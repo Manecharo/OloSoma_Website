@@ -18,68 +18,7 @@ import { SideMenu } from './SideMenu'
  * - Print-inspired decorative elements
  */
 
-interface Product {
-  id: string
-  title: string
-  subtitle: string
-  description: string
-  features: string[]
-  layout: 'left' | 'right' | 'center' | 'full'
-  blurEffect?: boolean
-}
-
-const products: Product[] = [
-  {
-    id: 'spatial-design',
-    title: 'Spatial Design',
-    subtitle: 'Architecture that shapes experience',
-    description:
-      'We create immersive environments where form follows emotion. Every surface, every angle, every transition is crafted to evoke wonder and connection.',
-    features: ['Interior Architecture', 'Retail Environments', 'Exhibition Design', 'Spatial Branding'],
-    layout: 'left',
-    blurEffect: true
-  },
-  {
-    id: 'brand-strategy',
-    title: 'Brand Strategy',
-    subtitle: 'Identity systems that resonate',
-    description:
-      'Beyond logos and guidelines—we build living brand ecosystems that evolve with your vision and speak authentically to your audience.',
-    features: ['Brand Identity', 'Visual Systems', 'Brand Guidelines', 'Strategic Positioning'],
-    layout: 'right',
-    blurEffect: false
-  },
-  {
-    id: 'experience-design',
-    title: 'Experience Design',
-    subtitle: 'Journeys that transform',
-    description:
-      'We orchestrate multi-sensory narratives that guide users through meaningful moments, creating lasting emotional impact.',
-    features: ['User Experience', 'Service Design', 'Customer Journeys', 'Interactive Systems'],
-    layout: 'center',
-    blurEffect: true
-  },
-  {
-    id: 'product-development',
-    title: 'Product Development',
-    subtitle: 'Innovation from concept to reality',
-    description:
-      'Bridging vision and execution, we transform ideas into tangible products that blend aesthetic excellence with functional brilliance.',
-    features: ['Product Design', 'Prototyping', 'Manufacturing', 'Launch Strategy'],
-    layout: 'left',
-    blurEffect: false
-  },
-  {
-    id: 'strategic-communications',
-    title: 'Strategic Communications',
-    subtitle: 'Narratives that connect',
-    description:
-      'We craft stories that cut through noise, building authentic connections between brands and the communities they serve.',
-    features: ['Content Strategy', 'Campaign Design', 'Digital Presence', 'Community Building'],
-    layout: 'full',
-    blurEffect: true
-  }
-]
+// Services have been moved to /services page
 
 export function ExperimentalLanding() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -110,14 +49,13 @@ export function ExperimentalLanding() {
         {/* Hero Section */}
         <HeroSection scrollProgress={scrollProgress} />
 
-        {/* Product Sections */}
-        <div id="services">
-          {products.map((product, index) => (
-            <ProductSection key={product.id} product={product} index={index} scrollProgress={scrollProgress} />
-          ))}
-        </div>
+        {/* How We Do It Section - Spiral Diagram */}
+        <HowWeDoItSection />
 
-        {/* About Section */}
+        {/* How We Help You Section */}
+        <HowWeHelpYouSection />
+
+        {/* Who We Are Section (previously About) */}
         <AboutSection />
 
         {/* Footer */}
@@ -167,7 +105,7 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
 
         {/* Main Content - Brutalist Typography */}
         <div className="space-y-16 md:space-y-24">
-          {/* Hero Statement */}
+          {/* Hero Statement - Updated to Idea makers & Project managers */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -175,9 +113,9 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
             className="space-y-6"
           >
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase leading-none tracking-tighter">
-              Systems
+              Idea makers &
               <br />
-              <span className="text-[#62bfa4]">of Meaning</span>
+              <span className="text-[#62bfa4]">Project managers</span>
             </h1>
           </motion.div>
 
@@ -291,15 +229,11 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
   )
 }
 
-function ProductSection({
-  product,
-  index,
-  scrollProgress
-}: {
-  product: Product
-  index: number
-  scrollProgress: number
-}) {
+/**
+ * How We Do It Section - Spiral Diagram
+ * Shows the iterative process: Foresight → Strategy → Craft → Prototype → Test → (loops back)
+ */
+function HowWeDoItSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -307,212 +241,493 @@ function ProductSection({
   })
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95])
+
+  // Spiral phases
+  const phases = [
+    { label: 'FORESIGHT', angle: 270 },
+    { label: 'STRATEGY', angle: 342 },
+    { label: 'CRAFT', angle: 54 },
+    { label: 'PROTOTYPE', angle: 126 },
+    { label: 'TEST', angle: 198 }
+  ]
 
   return (
     <motion.section
       ref={sectionRef}
-      style={{ opacity, scale }}
+      style={{ opacity }}
       className="relative min-h-screen flex items-center px-6 md:px-12 py-24 md:py-32"
+      id="how-we-do-it"
     >
-      {product.blurEffect && (
-        <div className="absolute inset-0 bg-[#1e1d1d]/70 backdrop-blur-[120px]" style={{ zIndex: -1 }} />
-      )}
-
-      <RandomPrintDecoration count={6} />
+      <div className="absolute inset-0 bg-[#1e1d1d]/50 backdrop-blur-[60px]" style={{ zIndex: -1 }} />
 
       <div className="max-w-7xl mx-auto w-full">
-        {product.layout === 'left' && <LeftLayout product={product} index={index} />}
-        {product.layout === 'right' && <RightLayout product={product} index={index} />}
-        {product.layout === 'center' && <CenterLayout product={product} index={index} />}
-        {product.layout === 'full' && <FullLayout product={product} index={index} />}
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 md:mb-24"
+        >
+          <h2 className="text-sm font-light text-[#62bfa4] tracking-[0.3em] uppercase mb-4">
+            How We Do It
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Spiral Diagram - Enhanced Graphics */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="relative aspect-square max-w-lg mx-auto"
+          >
+            {/* Animated Spiral SVG */}
+            <svg viewBox="0 0 400 400" className="w-full h-full">
+              {/* Glow filter definitions */}
+              <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <linearGradient id="spiralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#62bfa4" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#64b1f2" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#62bfa4" stopOpacity="0.8" />
+                </linearGradient>
+                <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                  <stop offset="0%" stopColor="#62bfa4" stopOpacity="1" />
+                  <stop offset="70%" stopColor="#62bfa4" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#62bfa4" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+
+              {/* Outer decorative circle */}
+              <circle
+                cx="200"
+                cy="200"
+                r="170"
+                stroke="rgba(255,255,255,0.05)"
+                strokeWidth="1"
+                fill="none"
+              />
+
+              {/* Main spiral path with gradient */}
+              <motion.path
+                d="M200 35
+                   C 295 35, 365 105, 365 200
+                   C 365 295, 295 365, 200 365
+                   C 105 365, 35 295, 35 200
+                   C 35 125, 90 70, 150 70
+                   C 230 70, 280 120, 280 190
+                   C 280 250, 230 290, 170 290
+                   C 120 290, 90 250, 90 200
+                   C 90 160, 120 130, 160 130
+                   C 195 130, 220 155, 220 190
+                   C 220 210, 205 225, 185 225
+                   C 168 225, 155 212, 155 195
+                   C 155 182, 165 172, 180 172
+                   C 192 172, 200 182, 200 195"
+                stroke="url(#spiralGradient)"
+                strokeWidth="2.5"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2.5, ease: 'easeInOut' }}
+              />
+
+              {/* Secondary subtle spiral */}
+              <motion.path
+                d="M200 35
+                   C 295 35, 365 105, 365 200
+                   C 365 295, 295 365, 200 365
+                   C 105 365, 35 295, 35 200
+                   C 35 125, 90 70, 150 70
+                   C 230 70, 280 120, 280 190
+                   C 280 250, 230 290, 170 290
+                   C 120 290, 90 250, 90 200
+                   C 90 160, 120 130, 160 130
+                   C 195 130, 220 155, 220 190"
+                stroke="rgba(255,255,255,0.08)"
+                strokeWidth="20"
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, ease: 'easeInOut', delay: 0.3 }}
+              />
+
+              {/* Waypoint dots on the spiral */}
+              {phases.map((phase, i) => {
+                const radius = 140
+                const angleRad = (phase.angle * Math.PI) / 180
+                const dotX = 200 + radius * Math.cos(angleRad)
+                const dotY = 200 + radius * Math.sin(angleRad)
+
+                return (
+                  <motion.g key={`dot-${phase.label}`}>
+                    {/* Outer glow ring */}
+                    <motion.circle
+                      cx={dotX}
+                      cy={dotY}
+                      r="18"
+                      fill="none"
+                      stroke="#62bfa4"
+                      strokeWidth="1"
+                      strokeOpacity="0.3"
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.8 + i * 0.15, duration: 0.4 }}
+                    />
+                    {/* Inner dot */}
+                    <motion.circle
+                      cx={dotX}
+                      cy={dotY}
+                      r="6"
+                      fill="#62bfa4"
+                      filter="url(#glow)"
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.8 + i * 0.15, duration: 0.4 }}
+                    />
+                  </motion.g>
+                )
+              })}
+
+              {/* Glowing center point - core */}
+              <motion.circle
+                cx="200"
+                cy="195"
+                r="30"
+                fill="url(#centerGlow)"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 2, duration: 0.6 }}
+              />
+              <motion.circle
+                cx="200"
+                cy="195"
+                r="12"
+                fill="#62bfa4"
+                filter="url(#glow)"
+                initial={{ scale: 0, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 2.2, duration: 0.4 }}
+              >
+                <animate
+                  attributeName="r"
+                  values="10;14;10"
+                  dur="3s"
+                  repeatCount="indefinite"
+                />
+              </motion.circle>
+
+              {/* Phase labels positioned around spiral */}
+              {phases.map((phase, i) => {
+                const radius = 175
+                const angleRad = (phase.angle * Math.PI) / 180
+                const x = 200 + radius * Math.cos(angleRad)
+                const y = 200 + radius * Math.sin(angleRad)
+
+                return (
+                  <motion.text
+                    key={phase.label}
+                    x={x}
+                    y={y}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-[10px] md:text-xs font-semibold tracking-[0.15em]"
+                    fill="#62bfa4"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1.2 + i * 0.15, duration: 0.4 }}
+                  >
+                    {phase.label}
+                  </motion.text>
+                )
+              })}
+
+              {/* Connecting lines from dots to labels */}
+              {phases.map((phase, i) => {
+                const innerRadius = 145
+                const outerRadius = 165
+                const angleRad = (phase.angle * Math.PI) / 180
+                const x1 = 200 + innerRadius * Math.cos(angleRad)
+                const y1 = 200 + innerRadius * Math.sin(angleRad)
+                const x2 = 200 + outerRadius * Math.cos(angleRad)
+                const y2 = 200 + outerRadius * Math.sin(angleRad)
+
+                return (
+                  <motion.line
+                    key={`line-${phase.label}`}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke="#62bfa4"
+                    strokeWidth="1"
+                    strokeOpacity="0.4"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 1 + i * 0.1, duration: 0.3 }}
+                  />
+                )
+              })}
+            </svg>
+
+            {/* Tagline below spiral */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 0.7, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 2.5, duration: 0.8 }}
+              className="text-center text-sm italic text-white/60 mt-6"
+            >
+              Enter anywhere. Return often.
+            </motion.p>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
+              We work in <span className="font-bold text-white">spirals, not straight lines</span>.
+            </p>
+
+            <p className="text-lg text-white/70 leading-relaxed">
+              Every project orbits between invisible logic and visible form—starting with foresight
+              to decode what's possible, moving through strategy to define what matters, diving into
+              craft to make it tangible, prototyping to test it in reality, and continuously looping
+              back to refine. You can enter anywhere. We never stop circling closer to the truth.
+            </p>
+          </motion.div>
+        </div>
       </div>
     </motion.section>
   )
 }
 
-function LeftLayout({ product, index }: { product: Product; index: number }) {
+/**
+ * How We Help You Section
+ * Shows the value delivery framework comparing traditional vs OloSoma approach
+ */
+function HowWeHelpYouSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start']
+  })
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
+
+  const challenges = [
+    { title: 'MULTIPLE VENDORS', desc: 'Coordinating architects, brand agencies, developers, and marketers' },
+    { title: 'EXTENDED TIMELINES', desc: 'Sequential handoffs between disciplines add 4-8 months' },
+    { title: 'MISALIGNED OUTPUTS', desc: "Brand doesn't match space; digital doesn't match physical" },
+    { title: 'BUDGET OVERRUNS', desc: 'Scope gaps and rework from disconnected teams' },
+    { title: 'INCOMPLETE SYSTEMS', desc: 'Missing pieces discovered late; launch delayed' }
+  ]
+
+  const outcomes = [
+    { title: 'ONE INTEGRATED TEAM', desc: 'All disciplines under one roof, one PM, one contract' },
+    { title: '40-60% FASTER', desc: 'Parallel workstreams eliminate sequential delays' },
+    { title: 'SYSTEMATIC COHERENCE', desc: 'Space, brand, product, and digital designed as one system' },
+    { title: 'FIXED PRICE MODELS', desc: 'Predictable costs; no vendor coordination overhead' },
+    { title: 'COMPLETE PACKAGES', desc: 'Launch-ready: strategy, design, assets, and implementation' }
+  ]
+
+  const businessOutcomes = [
+    '40-60% faster project delivery through parallel workstreams',
+    'Eliminates vendor coordination overhead (typically 20-30% of project time)',
+    'Reduces scope gaps and rework from misaligned outputs',
+    'Provides complete go-to-market packages, not isolated deliverables',
+    'Fixed-price or subscription models for predictable budgeting'
+  ]
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-      {/* Content - Left 7 columns */}
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8 }}
-        className="md:col-span-7 space-y-6"
-      >
-        <div className="text-sm font-light text-white/40 tracking-[0.3em] uppercase">0{index + 1}</div>
-
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-          {product.title}
-        </h2>
-
-        <p className="text-xl md:text-2xl font-light text-white/60">{product.subtitle}</p>
-
-        <p className="text-lg text-white/80 leading-relaxed max-w-2xl">{product.description}</p>
-
-        <div className="grid grid-cols-2 gap-4 pt-6">
-          {product.features.map((feature, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-1 h-1 rounded-full bg-[#62bfa4]" />
-              <span className="text-sm font-light text-white/70">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Visual element - Right 5 columns */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="md:col-span-5 flex items-center justify-center"
-      >
-        <div className="w-full aspect-square max-w-md border-2 border-white/10 rounded-2xl backdrop-blur-sm bg-white/5 flex items-center justify-center">
-          <div className="text-8xl font-bold text-white/10">{index + 1}</div>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
-
-function RightLayout({ product, index }: { product: Product; index: number }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-      {/* Visual element - Left 5 columns */}
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8 }}
-        className="md:col-span-5 flex items-center justify-center order-2 md:order-1"
-      >
-        <div className="w-full aspect-square max-w-md border-2 border-white/10 rounded-2xl backdrop-blur-sm bg-white/5 flex items-center justify-center">
-          <div className="text-8xl font-bold text-white/10">{index + 1}</div>
-        </div>
-      </motion.div>
-
-      {/* Content - Right 7 columns */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="md:col-span-7 space-y-6 order-1 md:order-2"
-      >
-        <div className="text-sm font-light text-white/40 tracking-[0.3em] uppercase">0{index + 1}</div>
-
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-          {product.title}
-        </h2>
-
-        <p className="text-xl md:text-2xl font-light text-white/60">{product.subtitle}</p>
-
-        <p className="text-lg text-white/80 leading-relaxed max-w-2xl">{product.description}</p>
-
-        <div className="grid grid-cols-2 gap-4 pt-6">
-          {product.features.map((feature, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-1 h-1 rounded-full bg-[#64b1f2]" />
-              <span className="text-sm font-light text-white/70">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  )
-}
-
-function CenterLayout({ product, index }: { product: Product; index: number }) {
-  return (
-    <div className="max-w-4xl mx-auto text-center space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8 }}
-        className="space-y-6"
-      >
-        <div className="text-sm font-light text-white/40 tracking-[0.3em] uppercase">0{index + 1}</div>
-
-        <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
-          {product.title}
-        </h2>
-
-        <p className="text-2xl md:text-3xl font-light text-white/60">{product.subtitle}</p>
-
-        <p className="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">{product.description}</p>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-3xl mx-auto">
-          {product.features.map((feature, i) => (
-            <div key={i} className="flex flex-col items-center gap-2 text-center">
-              <div className="w-2 h-2 rounded-full bg-[#62bfa4]" />
-              <span className="text-sm font-light text-white/70">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  )
-}
-
-function FullLayout({ product, index }: { product: Product; index: number }) {
-  return (
-    <div className="space-y-12">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.8 }}
-        className="space-y-6"
-      >
-        <div className="text-sm font-light text-white/40 tracking-[0.3em] uppercase">0{index + 1}</div>
-
-        <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold leading-none tracking-tighter max-w-6xl">
-          {product.title}
-        </h2>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+    <motion.section
+      ref={sectionRef}
+      style={{ opacity }}
+      className="relative min-h-screen flex items-center px-6 md:px-12 py-24 md:py-32"
+      id="how-we-help"
+    >
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 md:mb-24"
         >
-          <p className="text-2xl md:text-3xl font-light text-white/60 mb-6">{product.subtitle}</p>
-          <p className="text-lg text-white/80 leading-relaxed">{product.description}</p>
+          <h2 className="text-sm font-light text-[#62bfa4] tracking-[0.3em] uppercase mb-4">
+            How We Help You
+          </h2>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="space-y-6"
-        >
-          {product.features.map((feature, i) => (
-            <div key={i} className="flex items-start gap-4 border-l-2 border-white/20 pl-6 py-2">
-              <span className="text-lg font-light text-white/90">{feature}</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          {/* Comparison Table */}
+          <div className="space-y-8">
+            {/* Challenges vs Outcomes */}
+            <div className="grid grid-cols-2 gap-4 md:gap-8">
+              {/* Business Challenges Column */}
+              <div>
+                <div className="text-xs font-medium uppercase tracking-[0.2em] text-white/40 mb-6 pb-2 border-b border-white/10">
+                  Business Challenges
+                </div>
+                <div className="space-y-4">
+                  {challenges.map((item, i) => (
+                    <motion.div
+                      key={item.title}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1, duration: 0.5 }}
+                      className="border-l-2 border-white/20 pl-4 py-2"
+                    >
+                      <div className="text-sm font-medium text-white/80 mb-1">{item.title}</div>
+                      <div className="text-xs text-white/50 leading-relaxed">{item.desc}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Delivered Outcomes Column */}
+              <div>
+                <div className="text-xs font-medium uppercase tracking-[0.2em] text-white/40 mb-6 pb-2 border-b border-white/10">
+                  Delivered Outcomes
+                </div>
+                <div className="space-y-4">
+                  {outcomes.map((item, i) => (
+                    <motion.div
+                      key={item.title}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 + 0.2, duration: 0.5 }}
+                      className="border-l-2 border-[#62bfa4]/40 pl-4 py-2"
+                    >
+                      <div className="text-sm font-medium text-[#62bfa4] mb-1">{item.title}</div>
+                      <div className="text-xs text-white/50 leading-relaxed">{item.desc}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
-        </motion.div>
+
+            {/* Stats Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="grid grid-cols-3 gap-4 pt-8 border-t border-white/10"
+            >
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#62bfa4]">40-60%</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Time Reduction</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#62bfa4]">20-30%</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">Cost Efficiency</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#62bfa4]">100%</div>
+                <div className="text-xs text-white/40 uppercase tracking-wider mt-1">System Integration</div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Value Framework Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-[#62bfa4] mb-6">
+                Value Delivery Framework
+              </h3>
+              <p className="text-lg text-white/80 leading-relaxed mb-6">
+                We compress time-to-market and reduce coordination costs. When you need a new space,
+                brand, or product, traditional processes require multiple vendors, lengthy handoffs,
+                and misaligned deliverables.
+              </p>
+              <p className="text-lg text-white/70 leading-relaxed">
+                OloSoma delivers integrated design packages where spatial design, brand identity,
+                digital interfaces, product specs, and marketing assets are developed in parallel
+                and delivered as one cohesive system. One team. One timeline. One bill.
+              </p>
+            </div>
+
+            {/* Business Outcomes */}
+            <div>
+              <h4 className="text-xl font-bold text-[#62bfa4] mb-4">Business Outcomes</h4>
+              <ul className="space-y-3">
+                {businessOutcomes.map((outcome, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="text-[#62bfa4] mt-1">→</span>
+                    <span className="text-white/70">{outcome}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </motion.section>
   )
 }
 
 function AboutSection() {
   return (
-    <section id="about" className="relative min-h-screen flex items-center px-6 md:px-12 py-32 md:py-40">
+    <section id="who-we-are" className="relative min-h-screen flex items-center px-6 md:px-12 py-32 md:py-40">
       {/* High blur effect for contrast */}
       <div className="absolute inset-0 bg-[#1e1d1d]/70 backdrop-blur-[120px]" style={{ zIndex: -1 }} />
 
       <RandomPrintDecoration count={10} />
 
       <div className="max-w-7xl mx-auto w-full">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-16 md:mb-24"
+        >
+          <h2 className="text-sm font-light text-[#62bfa4] tracking-[0.3em] uppercase mb-4">
+            Who We Are
+          </h2>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           {/* Left Column - Philosophy */}
           <motion.div
@@ -523,11 +738,9 @@ function AboutSection() {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <h2 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight">
-                About
-                <br />
+              <h3 className="text-4xl md:text-6xl font-bold leading-tight tracking-tight">
                 <span className="text-[#62bfa4]">OloSoma</span>
-              </h2>
+              </h3>
               <div className="w-20 h-1 bg-[#62bfa4]" />
             </div>
 
