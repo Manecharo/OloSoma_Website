@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { MorphingLightCanvas } from './MorphingLightCanvas'
 import { RandomPrintDecoration } from './PrintIcons'
 import { SideMenu } from './SideMenu'
+import RadialOrbitalTimeline, { type OrbitalTimelineItem } from '@/components/ui/RadialOrbitalTimeline'
 
 /**
  * ExperimentalLanding - Radical grid layout with morphing backgrounds
@@ -230,8 +231,101 @@ function HeroSection({ scrollProgress }: { scrollProgress: number }) {
 }
 
 /**
- * How We Do It Section - Spiral Diagram
- * Shows the iterative process: Foresight → Strategy → Craft → Prototype → Test → (loops back)
+ * Inline SVG phase icons (stroke = currentColor so they inherit node text color).
+ * Flat, line-based — consistent with the hero's capability icons.
+ */
+function ForesightIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </svg>
+  )
+}
+function StrategyIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 1.5V5M12 19v3.5M1.5 12H5M19 12h3.5" />
+    </svg>
+  )
+}
+function CraftIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="m14.5 5.5 4 4M3 21l1.2-4.2L15 6a2.1 2.1 0 0 1 3 3L7.2 19.8 3 21Z" />
+    </svg>
+  )
+}
+function PrototypeIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 2 3 7l9 5 9-5-9-5Z" />
+      <path d="m3 12 9 5 9-5M3 17l9 5 9-5" />
+    </svg>
+  )
+}
+function TestIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M20 11a8 8 0 1 1-3.1-6.3" />
+      <path d="M9 11.5 12 14l8-8.5" />
+    </svg>
+  )
+}
+
+const PROCESS_PHASES: OrbitalTimelineItem[] = [
+  {
+    id: 1,
+    title: 'Foresight',
+    phase: '01',
+    icon: ForesightIcon,
+    relatedIds: [2, 5],
+    content:
+      'We read the signals first — the technology, the market, the context — to decode what\'s actually possible before a single line is drawn.'
+  },
+  {
+    id: 2,
+    title: 'Strategy',
+    phase: '02',
+    icon: StrategyIcon,
+    relatedIds: [1, 3],
+    content:
+      'We define what matters: the direction, the constraints, and the bet worth making. Clarity before craft.'
+  },
+  {
+    id: 3,
+    title: 'Craft',
+    phase: '03',
+    icon: CraftIcon,
+    relatedIds: [2, 4],
+    content:
+      'We make it tangible — turning the abstract into something you can see, hold, and feel across space, brand, and product.'
+  },
+  {
+    id: 4,
+    title: 'Prototype',
+    phase: '04',
+    icon: PrototypeIcon,
+    relatedIds: [3, 5],
+    content:
+      'We put it into reality fast, so the work proves itself instead of waiting for permission.'
+  },
+  {
+    id: 5,
+    title: 'Test',
+    phase: '05',
+    icon: TestIcon,
+    relatedIds: [4, 1],
+    content:
+      'We learn from contact with the real world and loop back — sharper each time. Enter anywhere, return often.'
+  }
+]
+
+/**
+ * How We Do It Section - Radial Orbital Timeline
+ * Shows the iterative process as orbiting nodes: Foresight → Strategy → Craft → Prototype → Test → (loops back)
  */
 function HowWeDoItSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -241,15 +335,6 @@ function HowWeDoItSection() {
   })
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-
-  // Spiral phases
-  const phases = [
-    { label: 'FORESIGHT', angle: 270 },
-    { label: 'STRATEGY', angle: 342 },
-    { label: 'CRAFT', angle: 54 },
-    { label: 'PROTOTYPE', angle: 126 },
-    { label: 'TEST', angle: 198 }
-  ]
 
   return (
     <motion.section
@@ -267,259 +352,29 @@ function HowWeDoItSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-16 md:mb-24"
+          className="mb-12 md:mb-16"
         >
-          <h2 className="text-sm font-light text-[#62bfa4] tracking-[0.3em] uppercase mb-4">
+          <h2 className="text-sm font-light text-[#62bfa4] tracking-[0.3em] uppercase mb-6">
             How We Do It
           </h2>
+          <p className="max-w-2xl text-xl md:text-2xl text-white/90 leading-relaxed">
+            We work in <span className="font-bold text-white">orbits, not straight lines</span>. Every
+            project circles between invisible logic and visible form — and you can enter anywhere.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Spiral Diagram - Enhanced Graphics */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="relative aspect-square max-w-lg mx-auto"
-          >
-            {/* Animated Spiral SVG */}
-            <svg viewBox="0 0 400 400" className="w-full h-full">
-              {/* Glow filter definitions */}
-              <defs>
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <linearGradient id="spiralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#62bfa4" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="#64b1f2" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#62bfa4" stopOpacity="0.8" />
-                </linearGradient>
-                <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                  <stop offset="0%" stopColor="#62bfa4" stopOpacity="1" />
-                  <stop offset="70%" stopColor="#62bfa4" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#62bfa4" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-
-              {/* Outer decorative circle */}
-              <circle
-                cx="200"
-                cy="200"
-                r="170"
-                stroke="rgba(255,255,255,0.05)"
-                strokeWidth="1"
-                fill="none"
-              />
-
-              {/* Main spiral path with gradient */}
-              <motion.path
-                d="M200 35
-                   C 295 35, 365 105, 365 200
-                   C 365 295, 295 365, 200 365
-                   C 105 365, 35 295, 35 200
-                   C 35 125, 90 70, 150 70
-                   C 230 70, 280 120, 280 190
-                   C 280 250, 230 290, 170 290
-                   C 120 290, 90 250, 90 200
-                   C 90 160, 120 130, 160 130
-                   C 195 130, 220 155, 220 190
-                   C 220 210, 205 225, 185 225
-                   C 168 225, 155 212, 155 195
-                   C 155 182, 165 172, 180 172
-                   C 192 172, 200 182, 200 195"
-                stroke="url(#spiralGradient)"
-                strokeWidth="2.5"
-                fill="none"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2.5, ease: 'easeInOut' }}
-              />
-
-              {/* Secondary subtle spiral */}
-              <motion.path
-                d="M200 35
-                   C 295 35, 365 105, 365 200
-                   C 365 295, 295 365, 200 365
-                   C 105 365, 35 295, 35 200
-                   C 35 125, 90 70, 150 70
-                   C 230 70, 280 120, 280 190
-                   C 280 250, 230 290, 170 290
-                   C 120 290, 90 250, 90 200
-                   C 90 160, 120 130, 160 130
-                   C 195 130, 220 155, 220 190"
-                stroke="rgba(255,255,255,0.08)"
-                strokeWidth="20"
-                fill="none"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2, ease: 'easeInOut', delay: 0.3 }}
-              />
-
-              {/* Waypoint dots on the spiral */}
-              {phases.map((phase, i) => {
-                const radius = 140
-                const angleRad = (phase.angle * Math.PI) / 180
-                const dotX = 200 + radius * Math.cos(angleRad)
-                const dotY = 200 + radius * Math.sin(angleRad)
-
-                return (
-                  <motion.g key={`dot-${phase.label}`}>
-                    {/* Outer glow ring */}
-                    <motion.circle
-                      cx={dotX}
-                      cy={dotY}
-                      r="18"
-                      fill="none"
-                      stroke="#62bfa4"
-                      strokeWidth="1"
-                      strokeOpacity="0.3"
-                      initial={{ scale: 0, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.8 + i * 0.15, duration: 0.4 }}
-                    />
-                    {/* Inner dot */}
-                    <motion.circle
-                      cx={dotX}
-                      cy={dotY}
-                      r="6"
-                      fill="#62bfa4"
-                      filter="url(#glow)"
-                      initial={{ scale: 0, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.8 + i * 0.15, duration: 0.4 }}
-                    />
-                  </motion.g>
-                )
-              })}
-
-              {/* Glowing center point - core */}
-              <motion.circle
-                cx="200"
-                cy="195"
-                r="30"
-                fill="url(#centerGlow)"
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 2, duration: 0.6 }}
-              />
-              <motion.circle
-                cx="200"
-                cy="195"
-                r="12"
-                fill="#62bfa4"
-                filter="url(#glow)"
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 2.2, duration: 0.4 }}
-              >
-                <animate
-                  attributeName="r"
-                  values="10;14;10"
-                  dur="3s"
-                  repeatCount="indefinite"
-                />
-              </motion.circle>
-
-              {/* Phase labels positioned around spiral */}
-              {phases.map((phase, i) => {
-                const radius = 175
-                const angleRad = (phase.angle * Math.PI) / 180
-                const x = 200 + radius * Math.cos(angleRad)
-                const y = 200 + radius * Math.sin(angleRad)
-
-                return (
-                  <motion.text
-                    key={phase.label}
-                    x={x}
-                    y={y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="text-[10px] md:text-xs font-semibold tracking-[0.15em]"
-                    fill="#62bfa4"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1.2 + i * 0.15, duration: 0.4 }}
-                  >
-                    {phase.label}
-                  </motion.text>
-                )
-              })}
-
-              {/* Connecting lines from dots to labels */}
-              {phases.map((phase, i) => {
-                const innerRadius = 145
-                const outerRadius = 165
-                const angleRad = (phase.angle * Math.PI) / 180
-                const x1 = 200 + innerRadius * Math.cos(angleRad)
-                const y1 = 200 + innerRadius * Math.sin(angleRad)
-                const x2 = 200 + outerRadius * Math.cos(angleRad)
-                const y2 = 200 + outerRadius * Math.sin(angleRad)
-
-                return (
-                  <motion.line
-                    key={`line-${phase.label}`}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    stroke="#62bfa4"
-                    strokeWidth="1"
-                    strokeOpacity="0.4"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1 + i * 0.1, duration: 0.3 }}
-                  />
-                )
-              })}
-            </svg>
-
-            {/* Tagline below spiral */}
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 0.7, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 2.5, duration: 0.8 }}
-              className="text-center text-sm italic text-white/60 mt-6"
-            >
-              Enter anywhere. Return often.
-            </motion.p>
-          </motion.div>
-
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
-            <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
-              We work in <span className="font-bold text-white">spirals, not straight lines</span>.
-            </p>
-
-            <p className="text-lg text-white/70 leading-relaxed">
-              Every project orbits between invisible logic and visible form—starting with foresight
-              to decode what's possible, moving through strategy to define what matters, diving into
-              craft to make it tangible, prototyping to test it in reality, and continuously looping
-              back to refine. You can enter anywhere. We never stop circling closer to the truth.
-            </p>
-          </motion.div>
-        </div>
+        {/* Orbital timeline — each node carries its own phase detail */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          <RadialOrbitalTimeline timelineData={PROCESS_PHASES} centerLabel="Our Process" />
+          <p className="mt-6 text-center text-sm italic text-white/50">
+            Tap a phase to explore it.
+          </p>
+        </motion.div>
       </div>
     </motion.section>
   )
