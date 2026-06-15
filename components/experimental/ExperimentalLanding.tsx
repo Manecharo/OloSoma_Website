@@ -403,18 +403,10 @@ function HowWeHelpYouSection() {
 
   const outcomes = [
     { title: 'ONE INTEGRATED TEAM', desc: 'All disciplines under one roof, one PM, one contract' },
-    { title: '40-60% FASTER', desc: 'Parallel workstreams eliminate sequential delays' },
+    { title: 'FASTER DELIVERY', desc: 'Parallel workstreams eliminate sequential delays' },
     { title: 'SYSTEMATIC COHERENCE', desc: 'Space, brand, product, and digital designed as one system' },
     { title: 'FIXED PRICE MODELS', desc: 'Predictable costs; no vendor coordination overhead' },
     { title: 'COMPLETE PACKAGES', desc: 'Launch-ready: strategy, design, assets, and implementation' }
-  ]
-
-  const businessOutcomes = [
-    '40-60% faster project delivery through parallel workstreams',
-    'Eliminates vendor coordination overhead (typically 20-30% of project time)',
-    'Reduces scope gaps and rework from misaligned outputs',
-    'Provides complete go-to-market packages, not isolated deliverables',
-    'Fixed-price or subscription models for predictable budgeting'
   ]
 
   return (
@@ -523,36 +515,12 @@ function HowWeHelpYouSection() {
               <h3 className="text-2xl md:text-3xl font-bold text-[#62bfa4] mb-6">
                 Value Delivery Framework
               </h3>
-              <p className="text-lg text-white/80 leading-relaxed mb-6">
-                We compress time-to-market and reduce coordination costs. When you need a new space,
-                brand, or product, traditional processes require multiple vendors, lengthy handoffs,
-                and misaligned deliverables.
+              <p className="text-lg text-white/80 leading-relaxed">
+                Traditional projects split across vendors, with sequential handoffs and misaligned
+                deliverables. OloSoma develops spatial design, brand identity, digital interfaces,
+                product specs, and marketing assets in parallel — and hands them over as one cohesive
+                system. <span className="text-white font-medium">One team. One timeline. One bill.</span>
               </p>
-              <p className="text-lg text-white/70 leading-relaxed">
-                OloSoma delivers integrated design packages where spatial design, brand identity,
-                digital interfaces, product specs, and marketing assets are developed in parallel
-                and delivered as one cohesive system. One team. One timeline. One bill.
-              </p>
-            </div>
-
-            {/* Business Outcomes */}
-            <div>
-              <h4 className="text-xl font-bold text-[#62bfa4] mb-4">Business Outcomes</h4>
-              <ul className="space-y-3">
-                {businessOutcomes.map((outcome, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
-                    className="flex items-start gap-3"
-                  >
-                    <span className="text-[#62bfa4] mt-1">→</span>
-                    <span className="text-white/70">{outcome}</span>
-                  </motion.li>
-                ))}
-              </ul>
             </div>
           </motion.div>
         </div>
@@ -827,24 +795,6 @@ function Footer() {
                 <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-2">Email</div>
                 <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#62bfa4] transition-colors">
                   hello@olosoma.com
-                </div>
-              </div>
-            </motion.a>
-
-            {/* Phone - Optional */}
-            <motion.a
-              href="tel:+1234567890"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              whileHover={{ x: 8 }}
-              className="group block"
-            >
-              <div className="border-l-2 border-white/20 pl-6 py-4 transition-all duration-300 group-hover:border-[#62bfa4]">
-                <div className="text-xs font-medium uppercase tracking-widest text-white/40 mb-2">Phone</div>
-                <div className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#62bfa4] transition-colors">
-                  +1 (234) 567-890
                 </div>
               </div>
             </motion.a>
