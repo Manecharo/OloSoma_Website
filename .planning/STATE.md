@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-06-15)
 
 Phase: 3 of 3 (Polish, Verify & Ship)
 Plan: 1 of 1 in current phase
-Status: All phases built + build-verified locally (`npm run build` green); awaiting user go-ahead to push to `main` (triggers Vercel prod deploy)
-Last activity: 2026-06-15 — Built orbital timeline + copy trim + Manager teaser + wishlist proxy; verified build + route behavior locally
+Status: v2.0 pushed to `main` (commit ab79b06) — Vercel production deploy triggered
+Last activity: 2026-06-15 — Pushed orbital timeline + copy trim + Manager teaser + wishlist proxy to main after green local build
 
-Progress: [██████████] 100% (build); deploy pending
+Progress: [██████████] 100% — shipped (verify on Vercel)
 
 ## Performance Metrics
 
