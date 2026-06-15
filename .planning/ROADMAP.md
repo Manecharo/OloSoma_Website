@@ -28,8 +28,8 @@ v2.0 is a focused refinement of the existing OloSoma marketing site, framed as a
   4. The "How We Help You" section states each fact once (no "40-60%" repeated 3×, no duplicated outcomes list) and the fake footer phone number is gone
 
 Plans:
-- [ ] 01-01: Build the `RadialOrbitalTimeline` component (Tailwind + Framer Motion + inline SVG icons), wire it into `HowWeDoItSection` with the 5 methodology phases
-- [ ] 01-02: Communication pass — dedupe "How We Help You" copy + remove placeholder phone
+- [x] 01-01: Build the `RadialOrbitalTimeline` component (Tailwind + Framer Motion + inline SVG icons), wire it into `HowWeDoItSection` with the 5 methodology phases
+- [x] 01-02: Communication pass — dedupe "How We Help You" copy + remove placeholder phone
 
 ### Phase 2: Manager Teaser + Wishlist
 **Goal**: A shareable standalone page sells the OloSoma Manager product and lets a visitor join the wishlist, with their email landing in the existing Manager waitlist.
@@ -43,8 +43,8 @@ Plans:
   4. The form shows distinct success, already-listed, validation-error, and rate-limited states; the proxy hides upstream details and degrades gracefully
 
 Plans:
-- [ ] 02-01: Wishlist API proxy route handler (`/api/wishlist`) + graceful upstream/error handling
-- [ ] 02-02: Manager teaser page (`/manager`) — hero, value sections, wishlist form component, metadata
+- [x] 02-01: Wishlist API proxy route handler (`/api/wishlist`) + graceful upstream/error handling
+- [x] 02-02: Manager teaser page (`/manager`) — hero, value sections, wishlist form component, metadata
 
 ### Phase 3: Polish, Verify & Ship
 **Goal**: Everything works together, looks right across breakpoints, builds cleanly, and is pushed to deploy.
@@ -58,7 +58,7 @@ Plans:
   4. Changes are committed and pushed to `main`, triggering the Vercel deploy
 
 Plans:
-- [ ] 03-01: Build/lint/typecheck fixes, responsive + accessibility QA, requirement re-verification, push
+- [x] 03-01: Build/lint/typecheck fixes, responsive + accessibility QA, requirement re-verification, push
 
 ## Progress
 
@@ -67,6 +67,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Homepage Orbital Timeline + Copy Precision | 0/2 | Not started | - |
-| 2. Manager Teaser + Wishlist | 0/2 | Not started | - |
-| 3. Polish, Verify & Ship | 0/1 | Not started | - |
+| 1. Homepage Orbital Timeline + Copy Precision | 2/2 | Complete | 2026-06-15 |
+| 2. Manager Teaser + Wishlist | 2/2 | Complete | 2026-06-15 |
+| 3. Polish, Verify & Ship | 1/1 | Verified — push pending | 2026-06-15 |

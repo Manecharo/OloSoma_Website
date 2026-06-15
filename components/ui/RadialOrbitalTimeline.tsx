@@ -1,6 +1,13 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, type ComponentType } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type ComponentType,
+  type MouseEvent as ReactMouseEvent,
+} from 'react'
 
 /**
  * RadialOrbitalTimeline
@@ -108,7 +115,7 @@ export default function RadialOrbitalTimeline({
     [centerViewOnNode]
   )
 
-  const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackgroundClick = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (e.target === containerRef.current || e.target === orbitRef.current) {
       setExpandedId(null)
       setAutoRotate(true)
